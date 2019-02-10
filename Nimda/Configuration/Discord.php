@@ -18,17 +18,11 @@ class Discord
             'presenceCache' => false,
             'userSweepInterval' => 600,
             'ws.disabledEvents' => ['TYPING_START'],
-            'ws.largeThreshold' => 500,
         ],
-        'avatar' => '',
-        'status' => 'online',
-        'presence' => [
-            'status' => 'idle',
-            'game' => [
-                'name' => 'Yasmin',
-                'type' => 0
-            ]
-        ]
+        'plugins' => [
+            \Nimda\Core\Plugins\SetPresence::class,
+            \Nimda\Core\Plugins\MessageLogger::class,
+            \Nimda\Core\Plugins\SayHello::class,
+        ],
     ];
-
 }
