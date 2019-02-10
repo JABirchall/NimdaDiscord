@@ -12,7 +12,6 @@ class PluginContainer
     const CORE_PLUGIN_CONFIG = 'Nimda\\Configuration\\Core\\';
     const PUBLIC_PLUGIN = 'Nimda\Plugins';
 
-    protected $collection;
     protected $commands;
 
     public function __construct()

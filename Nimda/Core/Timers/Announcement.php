@@ -2,7 +2,6 @@
 
 namespace Nimda\Core\Timers;
 
-
 use CharlotteDunois\Yasmin\Client;
 
 class Announcement
