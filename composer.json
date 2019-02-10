@@ -1,0 +1,12 @@
+{
+  "name": "JABirchall/NimdaDiscord",
+  "description": "An Advanced Discord Bot with a nice plugin autoloading. ",
+  "minimum-stability": "develop",
+  "license": "GNU LGPL",
+  "authors": [
+    {
+      "name": "Jake Birchall",
+      "email": "JABirchall@users.noreply.github.com"
+    }
+  ]
+}
