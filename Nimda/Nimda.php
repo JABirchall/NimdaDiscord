@@ -45,8 +45,13 @@ final class Nimda
         $this->loop->run();
     }
 
+    public function onReady() {
+        printf('Logged in as %s created on %s'.PHP_EOL, $this->client->user->tag, $this->client->user->createdAt->format('d.m.Y H:i:s'));
+    }
+
     public function register()
     {
         $this->client->on('message', [$this->plugins, 'onMessage']);
+        $this->client->on('ready', [$this, 'onReady']);
     }
 }
