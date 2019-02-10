@@ -2,8 +2,6 @@
 
 namespace Nimda\Core;
 
-
-use CharlotteDunois\Yasmin\Client;
 use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -47,7 +45,7 @@ class PluginContainer
 
             $loadedPlugin = new $plugin($config);
             $this->setTrigger($loadedPlugin, $config);
-            
+
             printf("Complete.\n");
         }
 

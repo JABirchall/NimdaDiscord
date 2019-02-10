@@ -36,12 +36,17 @@ final class Nimda
         $this->timers = new TimerContainer();
         $this->timers->loadTimers($this->client, $this->options['timers']);
 
-        $this->client->on('message', [$this->plugins, 'onMessage']);
+        $this->register();
     }
 
     public function run()
     {
         $this->client->login($this->options['client_token'])->done();
         $this->loop->run();
+    }
+
+    public function register()
+    {
+        $this->client->on('message', [$this->plugins, 'onMessage']);
     }
 }
