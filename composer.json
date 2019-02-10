@@ -1,12 +1,15 @@
 {
   "name": "jabirchall/nimdadiscord",
   "description": "An Advanced Discord Bot with a nice plugin autoloading. ",
-  "minimum-stability": "develop",
+  "minimum-stability": "dev",
   "license": "GNU LGPL",
   "authors": [
     {
       "name": "Jake Birchall",
       "email": "JABirchall@users.noreply.github.com"
     }
-  ]
+  ],
+  "require": {
+    "charlottedunois/yasmin": "v0.5.1"
+  }
 }
