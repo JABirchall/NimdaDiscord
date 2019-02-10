@@ -10,11 +10,12 @@
     }
   ],
   "require": {
-    "charlottedunois/yasmin": "v0.5.1"
+    "charlottedunois/yasmin": "v0.5.1",
+    "illuminate/database": "5.7.19"
   },
   "autoload": {
     "psr-4": {
-      "Nimda\\": "nimda"
+      "Nimda\\": "Nimda/"
     }
   }
 }

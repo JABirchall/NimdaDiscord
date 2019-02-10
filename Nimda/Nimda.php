@@ -4,6 +4,7 @@ namespace Nimda;
 
 use CharlotteDunois\Yasmin\Client;
 use Nimda\Core\PluginContainer;
+use Nimda\Core\TimerContainer;
 use React\EventLoop\Factory;
 
 final class Nimda
@@ -27,7 +28,13 @@ final class Nimda
 
         $this->plugins = new PluginContainer();
         $this->plugins->loadPlugins($this->client, $this->options['plugins']);
+
+        $this->timers = new TimerContainer();
+        $this->timers->loadTimers($this->client, $this->options['timers']);
+
+
         $this->client->on('message', [$this->plugins, 'onMessage']);
+
     }
 
 

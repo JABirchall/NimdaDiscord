@@ -1,6 +1,6 @@
 <?php
 
-namespace Nimda\Core\Plugins;
+namespace Nimda\Core\Timers;
 
 use CharlotteDunois\Yasmin\Client;
 

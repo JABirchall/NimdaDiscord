@@ -13,9 +13,7 @@ class SetPresence
                 'type' => 0
             ]
         ],
-
-        'trigger' => [
-            'timeout' => 3,
-        ],
+        'interval' => '5',
+        'once' => true,
     ];
 }

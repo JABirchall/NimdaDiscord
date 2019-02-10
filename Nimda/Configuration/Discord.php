@@ -20,9 +20,12 @@ class Discord
             'ws.disabledEvents' => ['TYPING_START'],
         ],
         'plugins' => [
-            \Nimda\Core\Plugins\SetPresence::class,
             \Nimda\Core\Plugins\MessageLogger::class,
             \Nimda\Core\Plugins\SayHello::class,
         ],
+        'timers' => [
+            \Nimda\Core\Timers\SetPresence::class,
+            \Nimda\Core\Timers\Announcement::class,
+        ]
     ];
 }
