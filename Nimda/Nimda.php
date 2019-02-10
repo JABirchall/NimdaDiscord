@@ -22,6 +22,10 @@ final class Nimda
 
     public function __construct(array $options)
     {
+        if(\PHP_SAPI !== 'cli') {
+            throw new \Exception('Nimda can only be used in the CLI SAPI. Please use PHP CLI to run Nimda.');
+        }
+
         $this->options = $options;
         $this->loop = Factory::create();
         $this->client = new Client($this->options['options'], $this->loop);
@@ -34,20 +38,11 @@ final class Nimda
 
 
         $this->client->on('message', [$this->plugins, 'onMessage']);
-
     }
-
 
     public function run()
     {
-
         $this->client->login($this->options['client_token'])->done();
         $this->loop->run();
     }
-
-    public function setClientOptions()
-    {
-
-    }
-
 }
