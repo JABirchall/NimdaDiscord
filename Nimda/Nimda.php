@@ -31,11 +31,10 @@ final class Nimda
         $this->client = new Client($this->options['options'], $this->loop);
 
         $this->plugins = new PluginContainer();
-        $this->plugins->loadPlugins($this->client, $this->options['plugins']);
+        $this->plugins->loadPlugins($this->options['plugins']);
 
         $this->timers = new TimerContainer();
         $this->timers->loadTimers($this->client, $this->options['timers']);
-
 
         $this->client->on('message', [$this->plugins, 'onMessage']);
     }

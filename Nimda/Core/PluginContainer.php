@@ -19,11 +19,10 @@ class PluginContainer
 
     public function __construct()
     {
-        $this->collection = new Collection();
         $this->commands =  new Collection();
     }
 
-    public function loadPlugins(Client $client, $plugins)
+    public function loadPlugins($plugins)
     {
         foreach ($plugins as $plugin) {
             $pluginName = substr($plugin, strlen(self::CORE_PLUGIN));
@@ -47,25 +46,15 @@ class PluginContainer
             }
 
             $loadedPlugin = new $plugin($config);
-            $this->setTrigger($client, $loadedPlugin, $config);
-            $this->collection->push($loadedPlugin);
+            $this->setTrigger($loadedPlugin, $config);
+            
             printf("Complete.\n");
         }
 
     }
 
-    private function loadConfig($plugin)
+    private function setTrigger($plugin, $config)
     {
-        $class = \Nimda\Configuration\Core::class . '\\' . $plugin;
-        return $class::$config;
-    }
-
-    private function setTrigger(Client $client, $plugin, $config)
-    {
-        if(array_key_exists('timeout', $config['trigger'])) {
-            $client->addTimer($config['trigger']['timeout'], [$plugin, 'trigger']);
-        }
-
         if(array_key_exists('commands', $config['trigger'])) {
             foreach ($config['trigger']['commands'] as $command) {
                 $this->commands->push([$command => $plugin]);
@@ -79,16 +68,28 @@ class PluginContainer
             return;
         }
 
-        $plugin = $this->commands->filter(function ($plugin) use ($message){
-            $command = array_keys($plugin)[0];
-            $res = Str::startsWith($message->content, $command);
-            return $res;
-        });
+        $plugin = $this->findPluginByCommand($message);
 
-        if($plugin->isEmpty()) {
+        if($plugin === null) {
             return;
         }
 
-        $plugin->collapse()->first()->trigger($message);
+        $plugin->trigger($message);
     }
+
+    private function findPluginByCommand($message)
+    {
+        return $this->commands->filter(function ($plugin) use ($message){
+            $command = array_keys($plugin);
+            return Str::startsWith($message->content, $command[0]);
+        })->collapse()
+             ->first();
+    }
+
+    private function loadConfig($plugin)
+    {
+        $class = self::CORE_PLUGIN_CONFIG . $plugin;
+        return $class::$config;
+    }
+
 }
