@@ -83,6 +83,12 @@ class TimerContainer
             return false;
         }
 
+        if(!is_subclass_of($timer, Timer::class))
+        {
+            printf("Loading failed because class %s doesn't extend %s.\n", $timerName, Timer::class);
+            return false;
+        }
+
         return true;
     }
 
