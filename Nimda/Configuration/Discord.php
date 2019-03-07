@@ -19,13 +19,32 @@ class Discord
             'userSweepInterval' => 600,
             'ws.disabledEvents' => ['TYPING_START'],
         ],
+        /**
+         * Command prefix, change this to what ever you wish (Note: / @ is reserved and interpreted by Discord)
+         */
+        'prefix' => '!',
         'plugins' => [
-            \Nimda\Core\Plugins\MessageLogger::class,
-            \Nimda\Core\Plugins\SayHello::class,
+            /**
+             * Core plugins provided with Nimda with basic fundamental features
+             */
+            'core' => [
+                \Nimda\Core\Plugins\MessageLogger::class,
+                \Nimda\Core\Plugins\SayHello::class,
+            ],
+            /**
+             * Public plugins created by the community. Nimda Team is not responsible for their functionality.
+             */
+            'public' => [
+
+            ],
+
         ],
         'timers' => [
-            \Nimda\Core\Timers\SetPresence::class,
-            \Nimda\Core\Timers\Announcement::class,
-        ]
+            'core' => [
+            ],
+            'public' => [
+                \Nimda\Timers\Announcement::class,
+            ],
+        ],
     ];
 }
