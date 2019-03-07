@@ -5,7 +5,7 @@ namespace Nimda\Core;
 use CharlotteDunois\Yasmin\Client;
 use Illuminate\Support\Collection;
 
-class TimerContainer
+final class TimerContainer
 {
 
     const CORE_TIMER = 'Nimda\\Core\\Timers\\';
