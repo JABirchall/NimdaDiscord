@@ -3,18 +3,12 @@
 namespace Nimda\Core\Plugins;
 
 use CharlotteDunois\Yasmin\Models\Message;
+use Nimda\Core\Plugin;
 
-class SayHello
+class SayHello extends Plugin
 {
-    protected $config;
-
-    public function __construct($config)
-    {
-        $this->config = $config;
-    }
-
     public function trigger(Message $message)
     {
-        $message->reply("Hello.");
+        $message->reply($this->config->message);
     }
 }

@@ -5,6 +5,7 @@ namespace Nimda\Core;
 use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Nimda\Configuration\Discord;
 
 final class PluginContainer
 {
@@ -88,7 +89,7 @@ final class PluginContainer
     {
         if(array_key_exists('commands', $config['trigger'])) {
             foreach ($config['trigger']['commands'] as $command) {
-                $this->commands->push([$command => $plugin]);
+                $this->commands->push([Discord::$config['prefix'].$command => $plugin]);
             }
         }
     }

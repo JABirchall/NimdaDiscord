@@ -11,8 +11,8 @@ class SayHello
         'trigger' => [
             'commands' =>
                 [
-                    '!hello',
-                    '!hi',
+                    'hello',
+                    'hi',
                 ]
         ],
     ];
