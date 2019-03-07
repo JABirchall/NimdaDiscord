@@ -5,6 +5,9 @@ namespace Nimda\Configuration;
 class Discord
 {
     public static $config = [
+        /**
+         * Discord API configuration
+         */
         'client_token' => '',
         'permissions' => 8,
         'name' => 'Nimda',
@@ -15,9 +18,10 @@ class Discord
             'messageCache' => true,
             'messageCacheLifetime' => 600,
             'messageSweepInterval' => 600,
+
             'presenceCache' => false,
             'userSweepInterval' => 600,
-            'ws.disabledEvents' => ['TYPING_START'],
+            'ws.disabledEvents' => ['TYPING_START'], // Do not remove TYPING_START
         ],
         /**
          * Command prefix, change this to what ever you wish (Note: / @ is reserved and interpreted by Discord)
@@ -37,8 +41,8 @@ class Discord
             'public' => [
 
             ],
-
         ],
+
         'timers' => [
             'core' => [
             ],
