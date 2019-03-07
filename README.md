@@ -11,7 +11,7 @@ To install this bot download or clone the repository to your server.
 
 run `./composer install` then `./composer dump-autoload -o`
 
-Edit the configuration files in `/Nimda/Confiuration` to get a discord API token go here: https://discordapp.com/developers/applications/
+Edit the configuration files in `/Nimda/Configuration` to get a discord API token go here: https://discordapp.com/developers/applications/
 
 Once all packages are installed run `php start.php`
 
