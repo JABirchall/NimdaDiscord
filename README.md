@@ -63,5 +63,4 @@ This project is licensed under GNU AGPLv3 License - see the [LICENSE](LICENSE) f
 ## Acknowledgments
 
 * noother
-* MAJID
 * [CharlotteDunois](https://github.com/CharlotteDunois)
