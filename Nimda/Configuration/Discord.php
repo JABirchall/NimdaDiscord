@@ -45,9 +45,10 @@ class Discord
         'timers' => [
             'core' => [
                 \Nimda\Core\Timers\Announcement::class,
+                \Nimda\Core\Timers\SetPresence::class,
             ],
             'public' => [
-                \Nimda\Timers\Announcement::class,
+
             ],
         ],
     ];
