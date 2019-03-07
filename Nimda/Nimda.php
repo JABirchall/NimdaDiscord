@@ -21,9 +21,7 @@ final class Nimda
 
     public function __construct(array $options)
     {
-        if(\PHP_SAPI !== 'cli') {
-            throw new \Exception('Nimda can only be used in the CLI SAPI. Please use PHP CLI to run Nimda.');
-        }
+        $this->startupCheck();
 
         $this->options = $options;
         $this->loop = Factory::create();
@@ -48,9 +46,24 @@ final class Nimda
         printf('Logged in as %s created on %s'.PHP_EOL, $this->client->user->tag, $this->client->user->createdAt->format('d.m.Y H:i:s'));
     }
 
-    public function register()
+    private function register()
     {
         $this->client->on('message', [$this->plugins, 'onMessage']);
         $this->client->on('ready', [$this, 'onReady']);
+    }
+
+    private function startupCheck()
+    {
+        if(\PHP_SAPI !== 'cli') {
+            throw new \Exception('Nimda can only be used in the CLI SAPI. Please use PHP CLI to run Nimda.');
+        }
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN' && posix_getuid() === 0) {
+            printf("[WARNING] Running Nimda as root is dangerous!\nStart anyway? Y/N: ");
+
+            if (strcasecmp(rtrim(fgets(STDIN)),'y')) {
+                throw new \Exception('Nimda running as root, user aborted.');
+            }
+        }
     }
 }

@@ -26,7 +26,7 @@ final class PluginContainer
         $this->loadCorePlugins($plugins['core']);
         $this->loadPublicPlugins($plugins['public']);
 
-        printf("Loading all plugins completed\n");
+        printf("Loading plugins completed\n");
     }
 
     private function loadCorePlugins(array $plugins)
