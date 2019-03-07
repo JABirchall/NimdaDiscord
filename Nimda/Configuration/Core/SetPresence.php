@@ -6,8 +6,8 @@ class SetPresence
 {
     public static $config = [
         'avatar' => 'https://i.imgur.com/DVkx8B9.jpg',
-        'status' => 'online',
         'presence' => [
+            'status' => 'online',
             'game' => [
                 'name' => 'Nimda',
                 'type' => 1
