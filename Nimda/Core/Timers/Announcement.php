@@ -3,16 +3,10 @@
 namespace Nimda\Core\Timers;
 
 use CharlotteDunois\Yasmin\Client;
+use Nimda\Core\Timer;
 
-class Announcement
+class Announcement extends Timer
 {
-    protected $config;
-
-    public function __construct($config)
-    {
-        $this->config = $config;
-    }
-
     public function trigger(Client $client)
     {
         $channel = $client->guilds->get($this->config['guildId'])->channels->get($this->config['channelId']);
