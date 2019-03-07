@@ -1,7 +1,10 @@
 # NimdaDiscord
 Nimda ❤ [Yasmin](https://github.com/CharlotteDunois/Yasmin)
 
-
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/built-by-developers.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/ages-18.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)](https://forthebadge.com)
 ## Getting Started
 
 To install this bot download or clone the repository to your server.
