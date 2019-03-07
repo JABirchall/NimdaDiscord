@@ -6,7 +6,7 @@ namespace Nimda\Configuration\Core;
 class SayHello
 {
     public static $config = [
-        'message' => "Hello %s",
+        'message' => "Hello, it's me",
 
         'trigger' => [
             'commands' =>

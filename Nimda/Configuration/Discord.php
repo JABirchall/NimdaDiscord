@@ -18,7 +18,6 @@ class Discord
             'messageCache' => true,
             'messageCacheLifetime' => 600,
             'messageSweepInterval' => 600,
-
             'presenceCache' => false,
             'userSweepInterval' => 600,
             'ws.disabledEvents' => ['TYPING_START'], // Do not remove TYPING_START
@@ -45,6 +44,7 @@ class Discord
 
         'timers' => [
             'core' => [
+                \Nimda\Core\Timers\Announcement::class,
             ],
             'public' => [
                 \Nimda\Timers\Announcement::class,

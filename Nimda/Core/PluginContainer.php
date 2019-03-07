@@ -18,7 +18,7 @@ final class PluginContainer
 
     public function __construct()
     {
-        $this->commands =  new Collection();
+        $this->commands = new Collection();
     }
 
     public function loadPlugins($plugins)
@@ -26,7 +26,7 @@ final class PluginContainer
         $this->loadCorePlugins($plugins['core']);
         $this->loadPublicPlugins($plugins['public']);
 
-        printf("Complete.\n");
+        printf("Loading all plugins completed\n");
     }
 
     private function loadCorePlugins(array $plugins)
@@ -44,6 +44,8 @@ final class PluginContainer
 
             $loadedPlugin = new $plugin($config);
             $this->setTrigger($loadedPlugin, $config);
+
+            printf("Completed\n");
         }
     }
 
@@ -62,6 +64,8 @@ final class PluginContainer
 
             $loadedPlugin = new $plugin($config);
             $this->setTrigger($loadedPlugin, $config);
+
+            printf("Completed\n");
         }
     }
 
@@ -69,7 +73,9 @@ final class PluginContainer
     {
         $pluginName = substr($plugin, strlen($namespace));
 
-        printf("%- 50s %s", "Loading core plugin [{$pluginName}]", ":: ");
+        $type = ($namespace == self::CORE_PLUGIN) ? 'core' : 'public';
+
+        printf("%- 50s %s", "Loading {$type} plugin [{$pluginName}]", ":: ");
 
         if (!class_exists($plugin)) {
             printf("Loading failed because class %s doesn't exist.\n", $pluginName);
@@ -97,7 +103,9 @@ final class PluginContainer
     private function loadConfig($namespace, $plugin)
     {
         $plugin = substr($plugin, strlen($namespace));
-        $class = self::CORE_PLUGIN_CONFIG . $plugin;
+        $class = ($namespace == self::CORE_PLUGIN) ?
+            self::CORE_PLUGIN_CONFIG . $plugin :
+            self::PUBLIC_PLUGIN_CONFIG . $plugin;
 
         if (!class_exists($class)) {
             printf("Loading failed because plugin %s does not have a config\n", $plugin);
@@ -121,7 +129,6 @@ final class PluginContainer
 
         $plugin->trigger($message);
     }
-
 
     private function findPluginByCommand($message)
     {

@@ -9,7 +9,6 @@ use React\EventLoop\Factory;
 
 final class Nimda
 {
-
     private $loop;
 
     private $client;

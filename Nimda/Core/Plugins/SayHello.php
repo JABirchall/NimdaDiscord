@@ -9,6 +9,6 @@ class SayHello extends Plugin
 {
     public function trigger(Message $message)
     {
-        $message->reply($this->config->message);
+        $message->reply($this->config['message']);
     }
 }

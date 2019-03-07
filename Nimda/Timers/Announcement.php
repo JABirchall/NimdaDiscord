@@ -1,6 +1,13 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Jake
+ * Date: 07/03/2019
+ * Time: 13:12
+ */
 
-namespace Nimda\Core\Timers;
+namespace Nimda\Timers;
+
 
 use CharlotteDunois\Yasmin\Client;
 
