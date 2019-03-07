@@ -10,7 +10,7 @@ class SetPresence
         'presence' => [
             'game' => [
                 'name' => 'Nimda',
-                'type' => 0
+                'type' => 1
             ]
         ],
         'interval' => '5',
