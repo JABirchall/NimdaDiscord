@@ -58,3 +58,10 @@ See also the list of [contributors](https://github.com/JABirchall/NimdaTS3/graph
 ## License
 
 This project is licensed under GNU AGPLv3 License - see the [LICENSE](LICENSE) file for details
+
+
+## Acknowledgments
+
+* noother
+* MAJID
+* [CharlotteDunois](https://github.com/CharlotteDunois)
