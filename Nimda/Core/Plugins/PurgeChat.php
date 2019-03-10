@@ -17,6 +17,5 @@ class PurgeChat extends Plugin
         $message->channel->bulkDelete($amount, $reason, Str::contains($message->content, "old"))->otherwise(function () use ($message) {
            $message->channel->send("Can not delete messages older then 14 days!");
         });
-        //var_dump(Str::contains($message->content, "old"));
     }
 }

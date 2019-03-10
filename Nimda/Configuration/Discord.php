@@ -33,6 +33,7 @@ class Discord
             'core' => [
                 \Nimda\Core\Plugins\MessageLogger::class,
                 \Nimda\Core\Plugins\SayHello::class,
+                \Nimda\Core\Plugins\PurgeChat::class,
             ],
             /**
              * Public plugins created by the community. Nimda Team is not responsible for their functionality.
