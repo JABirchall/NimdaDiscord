@@ -3,15 +3,14 @@
 namespace Nimda\Configuration\Core;
 
 
-class SayHello
+class PurgeChat
 {
     public static $config = [
-        'message' => "Hello, it's me",
+        'default' => 10,
 
         'trigger' => [
             'commands' => [
-                'hello',
-                'hi',
+                'purge',
             ]
         ],
     ];
