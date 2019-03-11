@@ -3,6 +3,7 @@
 namespace Nimda;
 
 use CharlotteDunois\Yasmin\Client;
+use Nimda\Configuration\Discord;
 use Nimda\Core\PluginContainer;
 use Nimda\Core\TimerContainer;
 use React\EventLoop\Factory;
@@ -13,32 +14,28 @@ final class Nimda
 
     private $client;
 
-    private $options;
-
     private $plugins;
 
     private $timers;
 
-    public function __construct(array $options)
+    public function __construct()
     {
         $this->startupCheck();
-
-        $this->options = $options;
         $this->loop = Factory::create();
-        $this->client = new Client($this->options['options'], $this->loop);
+        $this->client = new Client(Discord::$config['options'], $this->loop);
 
         $this->plugins = new PluginContainer();
-        $this->plugins->loadPlugins($this->options['plugins']);
+        $this->plugins->loadPlugins(Discord::$config['plugins']);
 
         $this->timers = new TimerContainer();
-        $this->timers->loadTimers($this->client, $this->options['timers']);
+        $this->timers->loadTimers($this->client, Discord::$config['timers']);
 
         $this->register();
     }
 
     public function run()
     {
-        $this->client->login($this->options['client_token'])->done();
+        $this->client->login(Discord::$config['client_token'])->done();
         $this->loop->run();
     }
 
