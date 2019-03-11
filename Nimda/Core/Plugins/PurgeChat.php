@@ -14,7 +14,7 @@ class PurgeChat extends Plugin
 
         if($amount < 3) {
             $message->channel->send(sprintf("Invalid commands parameters, usage: %s%s [amount min:3]", Discord::$config['prefix'], $this->config['trigger']['commands'][0] ))->then(function (Message $message) {
-                $message->delete(5);
+                $message->delete(10);
             });
             return;
         }
@@ -23,7 +23,7 @@ class PurgeChat extends Plugin
 
         $message->channel->bulkDelete($amount, $reason, $old ? true : false)->otherwise(function () use ($message) {
             $message->channel->send("Can not delete messages older then 14 days!")->then(function (Message $message) {
-                $message->delete(5);
+                $message->delete(10);
             });
         });
     }
