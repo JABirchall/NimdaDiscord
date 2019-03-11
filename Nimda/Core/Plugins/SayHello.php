@@ -7,7 +7,7 @@ use Nimda\Core\Plugin;
 
 class SayHello extends Plugin
 {
-    public function trigger(Message $message)
+    public function trigger(Message $message, $text = null)
     {
         $message->reply($this->config['message']);
     }

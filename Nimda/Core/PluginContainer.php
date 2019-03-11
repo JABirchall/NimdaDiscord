@@ -95,7 +95,7 @@ final class PluginContainer
     {
         if(array_key_exists('commands', $config['trigger'])) {
             foreach ($config['trigger']['commands'] as $command) {
-                $this->commands->push([Discord::$config['prefix'].$command => $plugin]);
+                $this->commands->push([$command => $plugin]);
             }
         }
     }
@@ -117,25 +117,28 @@ final class PluginContainer
 
     public function onMessage(Message $message)
     {
-        if($message->author->bot) {
+        if(!Str::startsWith($message->content, Discord::$config['prefix']) || $message->author->bot) {
             return;
         }
 
-        $plugin = $this->findPluginByCommand($message);
+        $plainText = Str::lower(Str::after($message->content, Discord::$config['prefix']));
 
-        if($plugin === null) {
+        $plugin = $this->findPluginByCommand($plainText);
+
+        if($plugin->isEmpty()) {
             return;
         }
 
-        $plugin->trigger($message);
+        $plainText = trim(Str::after($plainText, $plugin->keys()->first()));
+
+        $plugin = $plugin->first();
+        $plugin->trigger($message, $plainText);
     }
 
-    private function findPluginByCommand($message)
+    private function findPluginByCommand($text)
     {
-        return $this->commands->filter(function ($plugin) use ($message){
-            $command = array_keys($plugin);
-            return Str::startsWith($message->content, $command[0]);
-        })->collapse()
-            ->first();
+        return $this->commands->filter(function ($plugin) use ($text){
+            return Str::startsWith($text, array_keys($plugin)[0]);
+        })->collapse();
     }
 }
