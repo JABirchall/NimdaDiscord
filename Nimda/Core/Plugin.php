@@ -13,5 +13,5 @@ abstract class Plugin
         $this->config = $config;
     }
 
-    abstract public function trigger(Message $message, $text = null);
+    abstract public function trigger(Message $message, array $args = []);
 }

@@ -129,16 +129,41 @@ final class PluginContainer
             return;
         }
 
-        $plainText = trim(Str::after($plainText, $plugin->keys()->first()));
+        $arguments = $this->parseArguments($plainText, $plugin->keys()->first());
+
+        if($arguments === false) {
+            return;
+        }
 
         $plugin = $plugin->first();
-        $plugin->trigger($message, $plainText);
+        $plugin->trigger($message, $arguments);
     }
 
+    /**
+     * @param $text
+     * @return Collection
+     */
     private function findPluginByCommand($text)
     {
         return $this->commands->filter(function ($plugin) use ($text){
-            return Str::startsWith($text, array_keys($plugin)[0]);
+            $commandShard = explode(' ', array_keys($plugin)[0])[0];
+            return Str::startsWith($text, $commandShard);
         })->collapse();
+    }
+
+    private function parseArguments($message, $pattern)
+    {
+        $commandRegex = '/\{((?:(?!\d+,?\d+?)\w)+?)\}/';
+        $pattern = str_replace('/', '\/', $pattern);
+        $regex = '/^'.preg_replace($commandRegex, '(?<$1>.*)', $pattern).' ?/miu';
+
+        $regexMatched = (bool)preg_match($regex, $message, $matches);
+
+        if($regexMatched === true)
+        {
+            return $matches;
+        }
+
+        return false;
     }
 }

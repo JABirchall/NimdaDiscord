@@ -8,20 +8,18 @@ use Nimda\Core\Plugin;
 
 class PurgeChat extends Plugin
 {
-    public function trigger(Message $message, $text = null)
+    public function trigger(Message $message, array $args = [])
     {
-        [$amount, $old] = explode(' ', $text);
-
-        if($amount < 3) {
+        if($args['amount'] < 3) {
             $message->channel->send(sprintf("Invalid commands parameters, usage: %s%s [amount min:3]", Discord::$config['prefix'], $this->config['trigger']['commands'][0] ))->then(function (Message $message) {
                 $message->delete(10);
             });
             return;
         }
 
-        $reason = sprintf("[PurgeChat] User %s issued purge command on #%s for %i messages", $message->author, $message->channel, $amount);
+        $reason = sprintf("[PurgeChat] User %s issued purge command on #%s for %i messages", $message->author, $message->channel, $args['amount']);
 
-        $message->channel->bulkDelete($amount, $reason, $old ? true : false)->otherwise(function () use ($message) {
+        $message->channel->bulkDelete($args['amount'], $reason)->otherwise(function () use ($message) {
             $message->channel->send("Can not delete messages older then 14 days!")->then(function (Message $message) {
                 $message->delete(10);
             });
