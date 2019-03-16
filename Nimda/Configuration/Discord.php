@@ -2,8 +2,16 @@
 
 namespace Nimda\Configuration;
 
+/**
+ * Class Discord
+ * @package Nimda\Configuration
+ */
 class Discord
 {
+    /**
+     * Nimda master configuration
+     * @var array $config
+     */
     public static $config = [
         /**
          * Discord API configuration

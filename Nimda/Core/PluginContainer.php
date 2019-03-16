@@ -7,6 +7,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Nimda\Configuration\Discord;
 
+/**
+ * Class PluginContainer
+ * @package Nimda\Core
+ */
 final class PluginContainer
 {
     const CORE_PLUGIN = 'Nimda\\Core\\Plugins\\';
@@ -14,14 +18,24 @@ final class PluginContainer
     const PUBLIC_PLUGIN = 'Nimda\\Plugins\\';
     const PUBLIC_PLUGIN_CONFIG = 'Nimda\\Plugins\\Configuration\\';
 
+    /**
+     * @var \Illuminate\Support\Collection
+     */
     protected $commands;
 
+    /**
+     * PluginContainer constructor.
+     */
     public function __construct()
     {
         $this->commands = new Collection();
     }
 
-    public function loadPlugins($plugins)
+    /**
+     * Setup plugins to receive events
+     * @param array $plugins
+     */
+    public function loadPlugins(array $plugins)
     {
         $this->loadCorePlugins($plugins['core']);
         $this->loadPublicPlugins($plugins['public']);
@@ -29,6 +43,10 @@ final class PluginContainer
         printf("Loading plugins completed\n");
     }
 
+    /**
+     * Setup core plugins to receive events
+     * @param array $plugins
+     */
     private function loadCorePlugins(array $plugins)
     {
         foreach ($plugins as $plugin) {
@@ -49,6 +67,10 @@ final class PluginContainer
         }
     }
 
+    /**
+     * Setup public plugins to receive events
+     * @param array $plugins
+     */
     private function loadPublicPlugins(array $plugins)
     {
         foreach ($plugins as $plugin) {
@@ -69,6 +91,12 @@ final class PluginContainer
         }
     }
 
+    /**
+     * Validate a plugin is correctly setup before loading
+     * @param $namespace
+     * @param $plugin
+     * @return bool
+     */
     private function precheckPlugin($namespace, $plugin)
     {
         $pluginName = substr($plugin, strlen($namespace));
@@ -91,7 +119,12 @@ final class PluginContainer
         return true;
     }
 
-    private function setTrigger($plugin, $config)
+    /**
+     * Add the a plugin command mapped to its corresponding plugin to the container
+     * @param $plugin
+     * @param $config
+     */
+    private function setTrigger(Plugin $plugin, $config)
     {
         if(array_key_exists('commands', $config['trigger'])) {
             foreach ($config['trigger']['commands'] as $command) {
@@ -100,6 +133,12 @@ final class PluginContainer
         }
     }
 
+    /**
+     * Load a plugins configuration
+     * @param $namespace
+     * @param $plugin
+     * @return \Nimda\Core\Plugin|null
+     */
     private function loadConfig($namespace, $plugin)
     {
         $plugin = substr($plugin, strlen($namespace));
@@ -115,6 +154,10 @@ final class PluginContainer
         return $class::$config;
     }
 
+    /**
+     * Check a message for chat command
+     * @param Message $message
+     */
     public function onMessage(Message $message)
     {
         if(!Str::startsWith($message->content, Discord::$config['prefix']) || $message->author->bot) {
@@ -140,6 +183,7 @@ final class PluginContainer
     }
 
     /**
+     * Find a plugin for a chat command
      * @param $text
      * @return Collection
      */
@@ -151,6 +195,12 @@ final class PluginContainer
         })->collapse();
     }
 
+    /**
+     * Checks and parses a chat command arguments
+     * @param string $message
+     * @param string $pattern
+     * @return bool
+     */
     private function parseArguments($message, $pattern)
     {
         $commandRegex = '/\{((?:(?!\d+,?\d+?)\w)+?)\}/';

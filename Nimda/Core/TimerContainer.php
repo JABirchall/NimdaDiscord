@@ -12,15 +12,25 @@ final class TimerContainer
     const CORE_TIMER_CONFIG = 'Nimda\\Configuration\\Core\\';
     const PUBLIC_TIMER = 'Nimda\\Timers\\';
     const PUBLIC_TIMER_CONFIG = 'Nimda\\Timers\\Configuration\\';
-
+    /**
+     * @var \Illuminate\Support\Collection
+     */
     protected $timers;
 
+    /**
+     * TimerContainer constructor.
+     */
     public function __construct()
     {
         $this->timers = new Collection();
     }
 
-    public function loadTimers(Client $client, $timers)
+    /**
+     * Setup timers
+     * @param Client $client
+     * @param array $timers
+     */
+    public function loadTimers(Client $client, array $timers)
     {
             $this->loadCoreTimers($timers['core'], $client);
             $this->loadPublicTimers($timers['public'], $client);
@@ -28,7 +38,12 @@ final class TimerContainer
             printf("Loading timers completed.\n");
     }
 
-    public function loadCoreTimers($timers, Client $client)
+    /**
+     * Setup core timers
+     * @param array $timers
+     * @param Client $client
+     */
+    public function loadCoreTimers(array $timers, Client $client)
     {
         foreach ($timers as $timer) {
             if(!$this->precheckTimers(self::CORE_TIMER, $timer)) {
@@ -49,7 +64,12 @@ final class TimerContainer
         }
     }
 
-    public function loadPublicTimers($timers, Client $client)
+    /**
+     * Setup public timers
+     * @param array $timers
+     * @param Client $client
+     */
+    public function loadPublicTimers(array $timers, Client $client)
     {
         foreach ($timers as $timer) {
             if(!$this->precheckTimers(self::PUBLIC_TIMER, $timer)) {
@@ -65,11 +85,17 @@ final class TimerContainer
             $loadedTimer = new $timer($config);
             $this->timers->push($loadedTimer);
 
-            $this->setTimer($config, $loadedTimer, $client);
+            $this->setTimer($client, $loadedTimer, $config);
             printf("Completed\n");
         }
     }
 
+    /**
+     * Validate a timer is correctly setup before loading
+     * @param $namespace
+     * @param $timer
+     * @return bool
+     */
     private function precheckTimers($namespace, $timer)
     {
         $timerName = substr($timer, strlen($namespace));
@@ -92,6 +118,12 @@ final class TimerContainer
         return true;
     }
 
+    /**
+     * Load a plugin for a timer
+     * @param $namespace
+     * @param $timer
+     * @return \Nimda\Core\Timer|null
+     */
     private function loadConfig($namespace, $timer)
     {
         $timerName = substr($timer, strlen($namespace));
@@ -107,7 +139,13 @@ final class TimerContainer
         return $class::$config;
     }
 
-    private function setTimer($config, $timer, $client)
+    /**
+     * Add the timer to the timer loop set by timout
+     * @param Client $client
+     * @param Timer $timer
+     * @param $config
+     */
+    private function setTimer(Client $client, Timer $timer, $config)
     {
         if ($config['once'] === true) {
             $client->addTimer($config['interval'], [$timer, 'trigger']);

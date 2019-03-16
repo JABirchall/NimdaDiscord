@@ -8,16 +8,37 @@ use Nimda\Core\PluginContainer;
 use Nimda\Core\TimerContainer;
 use React\EventLoop\Factory;
 
+
+/**
+ * Class Nimda
+ * @package Nimda
+ */
 final class Nimda
 {
+    /**
+     * @var \React\EventLoop\LoopInterface
+     */
     private $loop;
 
+    /**
+     * @var \CharlotteDunois\Yasmin\Client
+     */
     private $client;
 
+    /**
+     * @var \Nimda\Core\PluginContainer
+     */
     private $plugins;
 
+    /**
+     * @var \Nimda\Core\TimerContainer
+     */
     private $timers;
 
+    /**
+     * Nimda constructor.
+     * @throws \Exception
+     */
     public function __construct()
     {
         $this->startupCheck();
@@ -33,22 +54,35 @@ final class Nimda
         $this->register();
     }
 
+    /**
+     * Nimda run method, boots and runs the discord loop
+     */
     public function run()
     {
         $this->client->login(Discord::$config['client_token'])->done();
         $this->loop->run();
     }
 
+    /**
+     * Runs when a connection is established
+     */
     public function onReady() {
         printf('Logged in as %s created on %s'.PHP_EOL, $this->client->user->tag, $this->client->user->createdAt->format('d.m.Y H:i:s'));
     }
 
+    /**
+     * Register events for Nimda to handle
+     */
     private function register()
     {
         $this->client->on('message', [$this->plugins, 'onMessage']);
         $this->client->on('ready', [$this, 'onReady']);
     }
 
+    /**
+     * Check for invalid options before booting
+     * @throws \Exception
+     */
     private function startupCheck()
     {
         if(\PHP_SAPI !== 'cli') {
