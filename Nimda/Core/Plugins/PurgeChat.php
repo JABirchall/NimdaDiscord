@@ -11,7 +11,7 @@ class PurgeChat extends Plugin
     public function trigger(Message $message, array $args = [])
     {
         if($args['amount'] < 3) {
-            $message->channel->send(sprintf("Invalid commands parameters, usage: %s%s [amount min:3]", Discord::$config['prefix'], $this->config['trigger']['commands'][0] ))->then(function (Message $message) {
+            $message->channel->send(sprintf("Invalid command parameters, usage: %s%s [amount min:3]", Discord::$config['prefix'], $this->config['trigger']['commands'][0] ))->then(function (Message $message) {
                 $message->delete(10);
             });
             return;
