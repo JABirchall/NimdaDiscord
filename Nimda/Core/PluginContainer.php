@@ -121,10 +121,10 @@ final class PluginContainer
 
     /**
      * Add the a plugin command mapped to its corresponding plugin to the container
-     * @param $plugin
-     * @param $config
+     * @param Plugin $plugin
+     * @param array $config
      */
-    private function setTrigger(Plugin $plugin, $config)
+    private function setTrigger(Plugin $plugin, array $config)
     {
         if(array_key_exists('commands', $config['trigger'])) {
             foreach ($config['trigger']['commands'] as $command) {
