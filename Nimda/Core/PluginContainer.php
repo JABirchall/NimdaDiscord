@@ -203,10 +203,17 @@ final class PluginContainer
      */
     private function parseArguments($message, $pattern)
     {
-        $commandRegex = '/\{((?:(?!\d+,?\d+?)\w)+?)\}/';
+        //$commandRegex = '/\{((?:(?!\d+,?\d+?)\w)+?)\}/'; // Saved for legacy
+        $commandRegex = '/\{((?:(?!\d)\w)+?):?(?:(?<=\:)([[:graph:]]+))?\}/';
         $pattern = str_replace('/', '\/', $pattern);
-        $regex = '/^'.\preg_replace($commandRegex, '(?<$1>.*)', $pattern).' ?/miu';
+        //$regex = '/^'.\preg_replace($commandRegex, '(?<$1>.*)', $pattern).' ?/miu'; // Saved for legacy
 
+        $onMatch = function ($matches) {
+            $pattern = $matches[2]??".*";
+            return "(?<{$matches[1]}>".$pattern.")";
+        };
+
+        $regex = '/^'.\preg_replace_callback($commandRegex, $onMatch, $pattern).' ?/miu';
         $regexMatched = (bool)\preg_match($regex, $message, $matches);
 
         if($regexMatched === true)

@@ -10,7 +10,7 @@ class PurgeChat
 
         'trigger' => [
             'commands' => [
-                'purge {amount}',
+                'purge {amount:\d+}',
             ]
         ],
     ];
