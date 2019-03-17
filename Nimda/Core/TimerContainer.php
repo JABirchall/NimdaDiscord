@@ -59,7 +59,7 @@ final class TimerContainer
             $loadedTimer = new $timer($config);
             $this->timers->push($loadedTimer);
 
-            $this->setTimer($config, $loadedTimer, $client);
+            $this->setTimer($client, $loadedTimer, $config);
             printf("Completed\n");
         }
     }
