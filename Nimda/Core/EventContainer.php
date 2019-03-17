@@ -15,7 +15,7 @@ final class EventContainer
     const CORE_EVENT = 'Nimda\\Core\\Events\\';
     const CORE_EVENT_CONFIG = 'Nimda\\Configuration\\Core\\';
     const PUBLIC_EVENT = 'Nimda\\Events\\';
-    const PUBLIC_EVENT_CONFIG = 'Nimda\\Plugins\\Configuration\\';
+    const PUBLIC_EVENT_CONFIG = 'Nimda\\Events\\Configuration\\';
 
     /**
      * @var \Illuminate\Support\Collection

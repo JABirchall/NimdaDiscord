@@ -16,7 +16,7 @@ class Discord
         /**
          * Discord API configuration
          */
-        'client_token' => '',
+        'client_token' => 'NTQ0MTAxMDE5NDE2Nzg5MDA5.D2K6DA.uv-qDRR9LJv1qptwT5HEF78EqD0',
         'permissions' => 8,
         'name' => 'Nimda',
         'options' => [
@@ -72,7 +72,7 @@ class Discord
              * Public events created by the community. The Nimda Team are not responsible for their functionality.
              */
             'public' => [
-
+                \Nimda\Events\LeaveMessage::class,
             ]
         ]
     ];
