@@ -33,12 +33,11 @@ final class PluginContainer
 
     /**
      * Setup plugins to receive events
-     * @param array $plugins
      */
-    public function loadPlugins(array $plugins)
+    public function loadPlugins()
     {
-        $this->loadCorePlugins($plugins['core']);
-        $this->loadPublicPlugins($plugins['public']);
+        $this->loadCorePlugins(Discord::$config['plugins']['core']);
+        $this->loadPublicPlugins(Discord::$config['plugins']['public']);
 
         printf("Loading plugins completed\n");
     }

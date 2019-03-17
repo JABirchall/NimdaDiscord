@@ -4,6 +4,7 @@ namespace Nimda\Core;
 
 use CharlotteDunois\Yasmin\Client;
 use Illuminate\Support\Collection;
+use Nimda\Configuration\Discord;
 
 final class TimerContainer
 {
@@ -17,23 +18,25 @@ final class TimerContainer
      */
     protected $timers;
 
+    protected $client;
+
     /**
      * TimerContainer constructor.
+     * @param Client $client
      */
-    public function __construct()
+    public function __construct(Client $client)
     {
         $this->timers = new Collection();
+        $this->client = $client;
     }
 
     /**
      * Setup timers
-     * @param Client $client
-     * @param array $timers
      */
-    public function loadTimers(Client $client, array $timers)
+    public function loadTimers()
     {
-            $this->loadCoreTimers($timers['core'], $client);
-            $this->loadPublicTimers($timers['public'], $client);
+            $this->loadCoreTimers(Discord::$config['timers']['core']);
+            $this->loadPublicTimers(Discord::$config['timers']['public']);
 
             printf("Loading timers completed.\n");
     }
@@ -41,9 +44,8 @@ final class TimerContainer
     /**
      * Setup core timers
      * @param array $timers
-     * @param Client $client
      */
-    public function loadCoreTimers(array $timers, Client $client)
+    public function loadCoreTimers(array $timers)
     {
         foreach ($timers as $timer) {
             if(!$this->precheckTimers(self::CORE_TIMER, $timer)) {
@@ -59,7 +61,7 @@ final class TimerContainer
             $loadedTimer = new $timer($config);
             $this->timers->push($loadedTimer);
 
-            $this->setTimer($client, $loadedTimer, $config);
+            $this->setTimer($loadedTimer, $config);
             printf("Completed\n");
         }
     }
@@ -67,9 +69,8 @@ final class TimerContainer
     /**
      * Setup public timers
      * @param array $timers
-     * @param Client $client
      */
-    public function loadPublicTimers(array $timers, Client $client)
+    public function loadPublicTimers(array $timers)
     {
         foreach ($timers as $timer) {
             if(!$this->precheckTimers(self::PUBLIC_TIMER, $timer)) {
@@ -85,7 +86,7 @@ final class TimerContainer
             $loadedTimer = new $timer($config);
             $this->timers->push($loadedTimer);
 
-            $this->setTimer($client, $loadedTimer, $config);
+            $this->setTimer($loadedTimer, $config);
             printf("Completed\n");
         }
     }
@@ -141,17 +142,16 @@ final class TimerContainer
 
     /**
      * Add the timer to the timer loop set by timout
-     * @param Client $client
      * @param Timer $timer
      * @param array $config
      */
-    private function setTimer(Client $client, Timer $timer, $config)
+    private function setTimer(Timer $timer, $config)
     {
         if ($config['once'] === true) {
-            $client->addTimer($config['interval'], [$timer, 'trigger']);
+            $this->client->addTimer($config['interval'], [$timer, 'trigger']);
             return;
         }
 
-        $client->addPeriodicTimer($config['interval'], [$timer, 'trigger']);
+        $this->client->addPeriodicTimer($config['interval'], [$timer, 'trigger']);
     }
 }

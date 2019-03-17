@@ -46,10 +46,10 @@ final class Nimda
         $this->client = new Client(Discord::$config['options'], $this->loop);
 
         $this->plugins = new PluginContainer();
-        $this->plugins->loadPlugins(Discord::$config['plugins']);
+        $this->plugins->loadPlugins();
 
-        $this->timers = new TimerContainer();
-        $this->timers->loadTimers($this->client, Discord::$config['timers']);
+        $this->timers = new TimerContainer($this->client);
+        $this->timers->loadTimers();
 
         $this->register();
     }
@@ -81,24 +81,19 @@ final class Nimda
 
     /**
      * Check for invalid options before booting
-     * @throws \Exception
+     * @throws \Exception & \Throwable
      */
     private function startupCheck()
     {
-        if(\PHP_SAPI !== 'cli') {
-            throw new \Exception('Nimda can only be used in the CLI SAPI. Please use PHP CLI to run Nimda.');
-        }
+        throw_if(\PHP_SAPI !== 'cli', \Exception::class, 'Nimda can only be used in the CLI SAPI. Please use PHP CLI to run Nimda.');
+
+        throw_if(Discord::$config['client_token'] === '', \Exception::class, 'No client token set in config.');
 
         if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN' && posix_getuid() === 0) {
             printf("[WARNING] Running Nimda as root is dangerous!\nStart anyway? Y/N: ");
 
-            if (strcasecmp(rtrim(fgets(STDIN)),'y')) {
-                throw new \Exception('Nimda running as root, user aborted.');
-            }
-        }
-
-        if(Discord::$config['client_token'] === ''){
-            throw new \Exception('No client token set in config.');
+            $answer = strcasecmp(rtrim(fgets(STDIN)),'y');
+            throw_if($answer !== 0, \Exception::class, 'Nimda running as root, user aborted.');
         }
     }
 }
