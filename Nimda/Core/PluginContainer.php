@@ -210,7 +210,7 @@ final class PluginContainer
 
         $onMatch = function ($matches) {
             $pattern = $matches[2]??".*";
-            return "(?<{$matches[1]}>".$pattern.")";
+            return "(?<{$matches[1]}>{$pattern})";
         };
 
         $regex = '/^'.\preg_replace_callback($commandRegex, $onMatch, $pattern).' ?/miu';
