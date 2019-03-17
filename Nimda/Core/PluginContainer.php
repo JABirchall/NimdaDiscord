@@ -127,7 +127,8 @@ final class PluginContainer
     private function setTrigger(Plugin $plugin, array $config)
     {
         if(array_key_exists('commands', $config['trigger'])) {
-            foreach ($config['trigger']['commands'] as $command) {
+            $commands = $config['trigger']['commands'];
+            foreach ($commands as $command) {
                 $this->commands->push([$command => $plugin]);
             }
         }
@@ -137,7 +138,7 @@ final class PluginContainer
      * Load a plugins configuration
      * @param $namespace
      * @param $plugin
-     * @return \Nimda\Core\Plugin|null
+     * @return array|null
      */
     private function loadConfig($namespace, $plugin)
     {
@@ -190,7 +191,7 @@ final class PluginContainer
     private function findPluginByCommand($text)
     {
         return $this->commands->filter(function ($plugin) use ($text){
-            $commandShard = explode(' ', array_keys($plugin)[0])[0];
+            $commandShard = \explode(' ', \array_keys($plugin)[0])[0];
             return Str::startsWith($text, $commandShard);
         })->collapse();
     }
@@ -199,15 +200,15 @@ final class PluginContainer
      * Checks and parses a chat command arguments
      * @param string $message
      * @param string $pattern
-     * @return bool
+     * @return array|false
      */
     private function parseArguments($message, $pattern)
     {
         $commandRegex = '/\{((?:(?!\d+,?\d+?)\w)+?)\}/';
         $pattern = str_replace('/', '\/', $pattern);
-        $regex = '/^'.preg_replace($commandRegex, '(?<$1>.*)', $pattern).' ?/miu';
+        $regex = '/^'.\preg_replace($commandRegex, '(?<$1>.*)', $pattern).' ?/miu';
 
-        $regexMatched = (bool)preg_match($regex, $message, $matches);
+        $regexMatched = (bool)\preg_match($regex, $message, $matches);
 
         if($regexMatched === true)
         {

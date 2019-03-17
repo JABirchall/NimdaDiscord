@@ -96,5 +96,9 @@ final class Nimda
                 throw new \Exception('Nimda running as root, user aborted.');
             }
         }
+
+        if(Discord::$config['client_token'] === ''){
+            throw new \Exception('No client token set in config.');
+        }
     }
 }

@@ -122,7 +122,7 @@ final class TimerContainer
      * Load a plugin for a timer
      * @param $namespace
      * @param $timer
-     * @return \Nimda\Core\Timer|null
+     * @return array|null
      */
     private function loadConfig($namespace, $timer)
     {
@@ -143,7 +143,7 @@ final class TimerContainer
      * Add the timer to the timer loop set by timout
      * @param Client $client
      * @param Timer $timer
-     * @param $config
+     * @param array $config
      */
     private function setTimer(Client $client, Timer $timer, $config)
     {
