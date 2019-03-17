@@ -19,7 +19,7 @@ final class PluginContainer
     const PUBLIC_PLUGIN_CONFIG = 'Nimda\\Plugins\\Configuration\\';
 
     /**
-     * @var \Illuminate\Support\Collection
+     * @var \Illuminate\Support\Collection $commands
      */
     protected $commands;
 
@@ -44,6 +44,7 @@ final class PluginContainer
 
     /**
      * Setup core plugins to receive events
+     *
      * @param array $plugins
      */
     private function loadCorePlugins(array $plugins)
@@ -68,6 +69,7 @@ final class PluginContainer
 
     /**
      * Setup public plugins to receive events
+     *
      * @param array $plugins
      */
     private function loadPublicPlugins(array $plugins)
@@ -92,8 +94,10 @@ final class PluginContainer
 
     /**
      * Validate a plugin is correctly setup before loading
+     *
      * @param $namespace
      * @param $plugin
+     *
      * @return bool
      */
     private function precheckPlugin($namespace, $plugin)
@@ -119,7 +123,8 @@ final class PluginContainer
     }
 
     /**
-     * Add the a plugin command mapped to its corresponding plugin to the container
+     * @internal Add the a plugin command mapped to its corresponding plugin to the container
+     *
      * @param Plugin $plugin
      * @param array $config
      */
@@ -134,9 +139,11 @@ final class PluginContainer
     }
 
     /**
-     * Load a plugins configuration
+     * @internal Load a plugins configuration
+     *
      * @param $namespace
      * @param $plugin
+     *
      * @return array|null
      */
     private function loadConfig($namespace, $plugin)
@@ -156,6 +163,7 @@ final class PluginContainer
 
     /**
      * Check a message for chat command
+     *
      * @param Message $message
      */
     public function onMessage(Message $message)
@@ -183,8 +191,10 @@ final class PluginContainer
     }
 
     /**
-     * Find a plugin for a chat command
+     * @internal Find a plugin for a chat command
+     *
      * @param $text
+     *
      * @return Collection
      */
     private function findPluginByCommand($text)
@@ -196,9 +206,11 @@ final class PluginContainer
     }
 
     /**
-     * Checks and parses a chat command arguments
+     * @internal Checks and parses a chat command arguments
+     *
      * @param string $message
      * @param string $pattern
+     *
      * @return array|false
      */
     private function parseArguments($message, $pattern)

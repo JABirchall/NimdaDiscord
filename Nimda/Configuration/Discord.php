@@ -9,8 +9,7 @@ namespace Nimda\Configuration;
 class Discord
 {
     /**
-     * Nimda master configuration
-     * @var array $config
+     * @var array $config Nimda master configuration
      */
     public static $config = [
         /**
@@ -72,7 +71,7 @@ class Discord
              * Public events created by the community. The Nimda Team are not responsible for their functionality.
              */
             'public' => [
-                \Nimda\Events\LeaveMessage::class,
+
             ]
         ]
     ];

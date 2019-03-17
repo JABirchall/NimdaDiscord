@@ -11,12 +11,13 @@ use CharlotteDunois\Yasmin\Models\Message;
 abstract class Plugin
 {
     /**
-     * @var array
+     * @var array $config Configuration for the object
      */
     protected $config;
 
     /**
      * Plugin constructor.
+     *
      * @param array $config
      */
     public function __construct(array $config)
@@ -25,9 +26,11 @@ abstract class Plugin
     }
 
     /**
-     * Plugin trigger method
+     * Plugin trigger method triggered when a valid command has been matched.
+     *
      * @param Message $message
      * @param array $args
+     *
      * @return mixed
      */
     abstract public function trigger(Message $message, array $args = []);

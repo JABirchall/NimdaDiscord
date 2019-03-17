@@ -2,7 +2,6 @@
 
 namespace Nimda\Configuration\Core;
 
-
 class Announcement
 {
     public static $config = [

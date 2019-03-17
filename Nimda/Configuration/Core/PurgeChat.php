@@ -2,7 +2,6 @@
 
 namespace Nimda\Configuration\Core;
 
-
 class PurgeChat
 {
     public static $config = [

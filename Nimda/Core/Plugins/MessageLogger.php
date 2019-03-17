@@ -7,6 +7,9 @@ use Nimda\Core\Plugin;
 
 class MessageLogger extends Plugin
 {
+    /**
+     * @inheritDoc
+     */
     public function trigger(Message $message, array $args = [])
     {
         // TODO: Implement trigger() method.

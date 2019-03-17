@@ -14,10 +14,13 @@ final class TimerContainer
     const PUBLIC_TIMER = 'Nimda\\Timers\\';
     const PUBLIC_TIMER_CONFIG = 'Nimda\\Timers\\Configuration\\';
     /**
-     * @var \Illuminate\Support\Collection
+     * @var \Illuminate\Support\Collection $timers
      */
     protected $timers;
 
+    /**
+     * @var \CharlotteDunois\Yasmin\Client $client Yasmin Client instance
+     */
     protected $client;
 
     /**
@@ -43,6 +46,7 @@ final class TimerContainer
 
     /**
      * Setup core timers
+     *
      * @param array $timers
      */
     public function loadCoreTimers(array $timers)
@@ -68,6 +72,7 @@ final class TimerContainer
 
     /**
      * Setup public timers
+     *
      * @param array $timers
      */
     public function loadPublicTimers(array $timers)
@@ -92,9 +97,11 @@ final class TimerContainer
     }
 
     /**
-     * Validate a timer is correctly setup before loading
+     * @internal Validate a timer is correctly setup before loading
+     *
      * @param $namespace
      * @param $timer
+     *
      * @return bool
      */
     private function precheckTimers($namespace, $timer)
@@ -120,9 +127,11 @@ final class TimerContainer
     }
 
     /**
-     * Load a plugin for a timer
+     * @internal Load a plugin for a timer
+     *
      * @param $namespace
      * @param $timer
+     *
      * @return array|null
      */
     private function loadConfig($namespace, $timer)
@@ -141,7 +150,8 @@ final class TimerContainer
     }
 
     /**
-     * Add the timer to the timer loop set by timout
+     * @internal Add the timer to the timer loop set by timout
+     *
      * @param Timer $timer
      * @param array $config
      */

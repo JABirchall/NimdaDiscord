@@ -7,6 +7,9 @@ use Nimda\Core\Timer;
 
 class SetPresence extends Timer
 {
+    /**
+     * @inheritDoc
+     */
     public function trigger(Client $client)
     {
         $client->user->setAvatar($this->config['avatar']);

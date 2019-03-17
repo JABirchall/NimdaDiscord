@@ -8,6 +8,9 @@ use Nimda\Core\Plugin;
 
 class PurgeChat extends Plugin
 {
+    /**
+     * @inheritDoc
+     */
     public function trigger(Message $message, array $args = [])
     {
         if($args['amount'] < 3) {

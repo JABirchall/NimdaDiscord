@@ -11,12 +11,13 @@ use CharlotteDunois\Yasmin\Client;
 abstract class Timer
 {
     /**
-     * @var array
+     * @var array $config Configuration for the object
      */
     protected $config;
 
     /**
      * Timer constructor.
+     *
      * @param array $config
      */
     public function __construct(array $config)
@@ -26,7 +27,9 @@ abstract class Timer
 
     /**
      * Timer trigger method
+     *
      * @param Client $client
+     *
      * @return mixed
      */
     abstract public function trigger(Client $client);

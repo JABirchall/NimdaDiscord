@@ -17,27 +17,27 @@ use React\EventLoop\Factory;
 final class Nimda
 {
     /**
-     * @var \React\EventLoop\LoopInterface
+     * @var \React\EventLoop\LoopInterface $loop
      */
     private $loop;
 
     /**
-     * @var \CharlotteDunois\Yasmin\Client
+     * @var \CharlotteDunois\Yasmin\Client $client
      */
     private $client;
 
     /**
-     * @var \Nimda\Core\PluginContainer
+     * @var \Nimda\Core\PluginContainer $plugins
      */
     private $plugins;
 
     /**
-     * @var \Nimda\Core\EventContainer
+     * @var \Nimda\Core\EventContainer $events
      */
     private $events;
 
     /**
-     * @var \Nimda\Core\TimerContainer
+     * @var \Nimda\Core\TimerContainer $timers
      */
     private $timers;
 
@@ -75,12 +75,13 @@ final class Nimda
     /**
      * Runs when a connection is established
      */
-    public function onReady() {
+    public function onReady()
+    {
         printf('Logged in as %s created on %s'.PHP_EOL, $this->client->user->tag, $this->client->user->createdAt->format('d.m.Y H:i:s'));
     }
 
     /**
-     * Register events for Nimda to handle
+     * @internal Register events for Nimda to handle
      */
     private function register()
     {
@@ -90,7 +91,8 @@ final class Nimda
     }
 
     /**
-     * Check for invalid options before booting
+     * @internal Check for invalid options before booting
+     *
      * @throws \Exception & \Throwable
      */
     private function startupCheck()

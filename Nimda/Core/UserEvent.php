@@ -11,12 +11,13 @@ use CharlotteDunois\Yasmin\Models\GuildMember;
 abstract class UserEvent
 {
     /**
-     * @var array
+     * @var array $config Configuration for the event object
      */
     protected $config;
 
     /**
      * Plugin constructor.
+     *
      * @param array $config
      */
     public function __construct(array $config)
@@ -25,8 +26,11 @@ abstract class UserEvent
     }
 
     /**
+     * Method for handling guildMember(Join|Leave|Updated)
+     *
      * @param GuildMember $member
      * @param GuildMember|null $memberOld
+     *
      * @return mixed
      */
     abstract public function userEventTrigger(GuildMember $member, GuildMember $memberOld = null);

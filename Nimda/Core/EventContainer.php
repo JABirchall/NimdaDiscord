@@ -18,7 +18,7 @@ final class EventContainer
     const PUBLIC_EVENT_CONFIG = 'Nimda\\Events\\Configuration\\';
 
     /**
-     * @var \Illuminate\Support\Collection
+     * @var \Illuminate\Support\Collection $events
      */
     protected $events;
 
@@ -42,7 +42,8 @@ final class EventContainer
     }
 
     /**
-     * Setup Core Events
+     * @internal Setup Core Events
+     *
      * @param array $events
      */
     private function loadCoreEvents(array $events)
@@ -66,7 +67,8 @@ final class EventContainer
     }
 
     /**
-     * Setup Public Events
+     * @internal Setup Public Events
+     *
      * @param array $events
      */
     private function loadPublicEvents(array $events)
@@ -90,9 +92,11 @@ final class EventContainer
     }
 
     /**
-     * Validate a event is valid before loading it.
+     * @internal Validate a event is valid before loading it.
+     *
      * @param $namespace
      * @param $event
+     *
      * @return bool
      */
     private function precheckEvent($namespace, $event)
@@ -118,6 +122,8 @@ final class EventContainer
     }
 
     /**
+     * @internal Set the event trigger mapped to the plugin
+     *
      * @param array $config
      * @param UserEvent $event
      */
@@ -130,9 +136,11 @@ final class EventContainer
     }
 
     /**
-     * Load the event configuration
+     * @internal Load the event configuration
+     *
      * @param $namespace
      * @param $event
+     *
      * @return array|null
      */
     private function loadConfig($namespace, $event)
@@ -152,7 +160,8 @@ final class EventContainer
 
     /**
      * Waiting for clients to join the server
-     * @param GuildMember $member
+     *
+     * @param GuildMember $member The member data which joined the guild
      */
     public function guildMemberAdd(GuildMember $member)
     {

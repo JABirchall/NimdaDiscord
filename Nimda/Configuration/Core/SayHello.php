@@ -2,7 +2,6 @@
 
 namespace Nimda\Configuration\Core;
 
-
 class SayHello
 {
     public static $config = [
