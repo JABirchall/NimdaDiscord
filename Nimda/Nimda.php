@@ -6,6 +6,7 @@ use CharlotteDunois\Yasmin\Client;
 use Nimda\Configuration\Discord;
 use Nimda\Core\PluginContainer;
 use Nimda\Core\TimerContainer;
+use Nimda\Core\EventContainer;
 use React\EventLoop\Factory;
 
 
@@ -31,13 +32,18 @@ final class Nimda
     private $plugins;
 
     /**
+     * @var \Nimda\Core\EventContainer
+     */
+    private $events;
+
+    /**
      * @var \Nimda\Core\TimerContainer
      */
     private $timers;
 
     /**
      * Nimda constructor.
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function __construct()
     {
@@ -50,6 +56,9 @@ final class Nimda
 
         $this->timers = new TimerContainer($this->client);
         $this->timers->loadTimers();
+
+        $this->events = new EventContainer();
+        $this->events->loadEvents();
 
         $this->register();
     }
@@ -77,6 +86,7 @@ final class Nimda
     {
         $this->client->on('message', [$this->plugins, 'onMessage']);
         $this->client->on('ready', [$this, 'onReady']);
+        $this->client->on("guildMemberAdd", [$this->events, 'guildMemberAdd']);
     }
 
     /**

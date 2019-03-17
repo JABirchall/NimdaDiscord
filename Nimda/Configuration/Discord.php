@@ -44,7 +44,7 @@ class Discord
                 \Nimda\Core\Plugins\PurgeChat::class,
             ],
             /**
-             * Public plugins created by the community. Nimda Team is not responsible for their functionality.
+             * Public plugins created by the community. The Nimda Team are not responsible for their functionality.
              */
             'public' => [
 
@@ -60,5 +60,20 @@ class Discord
 
             ],
         ],
+
+        'events' => [
+            /**
+             * Core events provided with Nimda.
+             */
+            'core' => [
+                \Nimda\Core\Events\WelcomeMessage::class,
+            ],
+            /**
+             * Public events created by the community. The Nimda Team are not responsible for their functionality.
+             */
+            'public' => [
+
+            ]
+        ]
     ];
 }
