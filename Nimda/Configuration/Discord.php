@@ -16,7 +16,7 @@ class Discord
         /**
          * Discord API configuration
          */
-        'client_token' => 'NTQ0MTAxMDE5NDE2Nzg5MDA5.D2K6DA.uv-qDRR9LJv1qptwT5HEF78EqD0',
+        'client_token' => '',
         'permissions' => 8,
         'name' => 'Nimda',
         'options' => [
