@@ -2,7 +2,6 @@
 
 namespace Nimda\Configuration\Core;
 
-
 class WelcomeMessage
 {
     public static $config = [

@@ -1,6 +1,7 @@
 <?php
 
 namespace Nimda\Core;
+
 use CharlotteDunois\Yasmin\Models\GuildMember;
 use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
