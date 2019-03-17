@@ -32,7 +32,6 @@ final class TimerContainer
 
     /**
      * Setup timers
-
      */
     public function loadTimers()
     {
