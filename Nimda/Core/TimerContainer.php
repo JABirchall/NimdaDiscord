@@ -24,7 +24,6 @@ final class TimerContainer
      * TimerContainer constructor.
      * @param Client $client
      */
-
     public function __construct(Client $client)
     {
         $this->timers = new Collection();
@@ -35,7 +34,6 @@ final class TimerContainer
      * Setup timers
 
      */
-
     public function loadTimers()
     {
             $this->loadCoreTimers(Discord::$config['timers']['core']);
@@ -48,7 +46,6 @@ final class TimerContainer
      * Setup core timers
      * @param array $timers
      */
-
     public function loadCoreTimers(array $timers)
     {
         foreach ($timers as $timer) {

@@ -18,24 +18,20 @@ class WelcomeMessage extends UserEvent
 
         if ($this->config['mention'] === true) {
             $channel->send("Welcome to {$member->guild->name}, {$member}");
-        } elseif ($this->config['embed'] === true)
-        {
+        } elseif ($this->config['embed'] === true) {
             $embed = new MessageEmbed();
-            $embed
-                ->setTitle('Member Joined!')
-                ->setColor(16777215)
-                ->addField(" ID: ".$member, "Name: ".$member->displayName)
-                ->setTimestamp()
-                ->setFooter('User ID: '.$member->id);
+            $embed->setTitle('Member Joined!');
+            $embed->addField(" ID: ".$member, "Name: ".$member->displayName);
+            $embed->setColor(16777215);
+            $embed->setTimestamp();
+            $embed->setFooter('User ID: '.$member->id);
 
             $channel->send('', array('embed' => $embed))
-                ->done(null, function ($error) {
+                ->otherwise(function ($error) {
                     echo $error.PHP_EOL;
                 });
         } else {
             echo "[WelcomeMessage] Mention and Embed are both set to false, no messages will display. If this is your intention, please set 'enable' to false!";
-            return;
         }
-
     }
 }
