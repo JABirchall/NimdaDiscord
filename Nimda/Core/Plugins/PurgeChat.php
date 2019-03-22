@@ -4,9 +4,9 @@ namespace Nimda\Core\Plugins;
 
 use CharlotteDunois\Yasmin\Models\Message;
 use Nimda\Configuration\Discord;
-use Nimda\Core\Plugin;
+use Nimda\Core\Command;
 
-class PurgeChat extends Plugin
+class PurgeChat extends Command
 {
     /**
      * @inheritDoc

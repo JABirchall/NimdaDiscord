@@ -11,12 +11,12 @@ use Nimda\Configuration\Discord;
  * Class PluginContainer
  * @package Nimda\Core
  */
-final class PluginContainer
+final class CommandContainer
 {
-    const CORE_PLUGIN = 'Nimda\\Core\\Plugins\\';
-    const CORE_PLUGIN_CONFIG = 'Nimda\\Configuration\\Core\\';
-    const PUBLIC_PLUGIN = 'Nimda\\Plugins\\';
-    const PUBLIC_PLUGIN_CONFIG = 'Nimda\\Plugins\\Configuration\\';
+    const CORE_COMMAND = 'Nimda\\Core\\Plugins\\';
+    const CORE_COMMAND_CONFIG = 'Nimda\\Configuration\\Core\\';
+    const PUBLIC_COMMAND = 'Nimda\\Plugins\\';
+    const PUBLIC_COMMAND_CONFIG = 'Nimda\\Plugins\\Configuration\\';
 
     /**
      * @var \Illuminate\Support\Collection $commands
@@ -34,10 +34,10 @@ final class PluginContainer
     /**
      * Setup plugins to receive events
      */
-    public function loadPlugins()
+    public function loadCommands()
     {
-        $this->loadCorePlugins(Discord::$config['plugins']['core']);
-        $this->loadPublicPlugins(Discord::$config['plugins']['public']);
+        $this->loadCoreCommands(Discord::$config['plugins']['core']);
+        $this->loadPublicCommands(Discord::$config['plugins']['public']);
 
         printf("Loading plugins completed\n");
     }
@@ -47,14 +47,14 @@ final class PluginContainer
      *
      * @param array $plugins
      */
-    private function loadCorePlugins(array $plugins)
+    private function loadCoreCommands(array $plugins)
     {
         foreach ($plugins as $plugin) {
-            if(!$this->precheckPlugin(self::CORE_PLUGIN, $plugin)) {
+            if(!$this->precheckPlugin(self::CORE_COMMAND, $plugin)) {
                 continue;
             }
 
-            $config = $this->loadConfig(self::CORE_PLUGIN, $plugin);
+            $config = $this->loadConfig(self::CORE_COMMAND, $plugin);
 
             if($config === null) {
                 continue;
@@ -72,14 +72,14 @@ final class PluginContainer
      *
      * @param array $plugins
      */
-    private function loadPublicPlugins(array $plugins)
+    private function loadPublicCommands(array $plugins)
     {
         foreach ($plugins as $plugin) {
-            if(!$this->precheckPlugin(self::PUBLIC_PLUGIN, $plugin)) {
+            if(!$this->precheckPlugin(self::PUBLIC_COMMAND, $plugin)) {
                 continue;
             }
 
-            $config = $this->loadConfig(self::PUBLIC_PLUGIN, $plugin);
+            $config = $this->loadConfig(self::PUBLIC_COMMAND, $plugin);
 
             if($config === null) {
                 continue;
@@ -104,7 +104,7 @@ final class PluginContainer
     {
         $pluginName = substr($plugin, strlen($namespace));
 
-        $type = ($namespace == self::CORE_PLUGIN) ? 'core' : 'public';
+        $type = ($namespace == self::CORE_COMMAND) ? 'core' : 'public';
 
         printf("%- 50s %s", "Loading {$type} plugin [{$pluginName}]", ":: ");
 
@@ -113,9 +113,9 @@ final class PluginContainer
             return false;
         }
 
-        if(!is_subclass_of($plugin, Plugin::class))
+        if(!is_subclass_of($plugin, Command::class))
         {
-            printf("Loading failed because class %s doesn't extend %s.\n", $pluginName, Plugin::class);
+            printf("Loading failed because class %s doesn't extend %s.\n", $pluginName, Command::class);
             return false;
         }
 
@@ -125,10 +125,10 @@ final class PluginContainer
     /**
      * @internal Add the a plugin command mapped to its corresponding plugin to the container
      *
-     * @param Plugin $plugin
+     * @param Command $plugin
      * @param array $config
      */
-    private function setTrigger(Plugin $plugin, array $config)
+    private function setTrigger(Command $plugin, array $config)
     {
         if(array_key_exists('commands', $config['trigger'])) {
             $commands = $config['trigger']['commands'];
@@ -149,9 +149,9 @@ final class PluginContainer
     private function loadConfig($namespace, $plugin)
     {
         $plugin = substr($plugin, strlen($namespace));
-        $class = ($namespace == self::CORE_PLUGIN) ?
-            self::CORE_PLUGIN_CONFIG . $plugin :
-            self::PUBLIC_PLUGIN_CONFIG . $plugin;
+        $class = ($namespace == self::CORE_COMMAND) ?
+            self::CORE_COMMAND_CONFIG . $plugin :
+            self::PUBLIC_COMMAND_CONFIG . $plugin;
 
         if (!class_exists($class)) {
             printf("Loading failed because plugin %s does not have a config\n", $plugin);
@@ -174,20 +174,20 @@ final class PluginContainer
 
         $plainText = Str::lower(Str::after($message->content, Discord::$config['prefix']));
 
-        $plugin = $this->findPluginByCommand($plainText);
+        $command = $this->findCommand($plainText);
 
-        if($plugin->isEmpty()) {
+        if($command->isEmpty()) {
             return;
         }
 
-        $arguments = $this->parseArguments($plainText, $plugin->keys()->first());
+        $arguments = $this->parseArguments($plainText, $command->keys()->first());
 
         if($arguments === false) {
             return;
         }
 
-        $plugin = $plugin->first();
-        $plugin->trigger($message, $arguments);
+        $command = $command->first();
+        $command->trigger($message, $arguments);
     }
 
     /**
@@ -197,10 +197,10 @@ final class PluginContainer
      *
      * @return Collection
      */
-    private function findPluginByCommand($text)
+    private function findCommand($text)
     {
-        return $this->commands->filter(function ($plugin) use ($text){
-            $commandShard = \explode(' ', \array_keys($plugin)[0])[0];
+        return $this->commands->filter(function ($command) use ($text){
+            $commandShard = \explode(' ', \array_keys($command)[0])[0];
             return Str::startsWith($text, $commandShard);
         })->collapse();
     }

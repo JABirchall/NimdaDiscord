@@ -8,7 +8,7 @@ use CharlotteDunois\Yasmin\Models\Message;
  * Class Plugin
  * @package Nimda\Core
  */
-abstract class Plugin
+abstract class Command
 {
     /**
      * @var array $config Configuration for the object

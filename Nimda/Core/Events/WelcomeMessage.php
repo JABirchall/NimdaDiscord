@@ -3,10 +3,10 @@
 namespace Nimda\Core\Events;
 
 use CharlotteDunois\Yasmin\Models\GuildMember;
-use Nimda\Core\UserEvent;
+use Nimda\Core\Event;
 use CharlotteDunois\Yasmin\Models\MessageEmbed;
 
-class WelcomeMessage extends UserEvent
+class WelcomeMessage extends Event
 {
     /**
      * @inheritDoc

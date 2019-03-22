@@ -3,9 +3,9 @@
 namespace Nimda\Core\Plugins;
 
 use CharlotteDunois\Yasmin\Models\Message;
-use Nimda\Core\Plugin;
+use Nimda\Core\Command;
 
-class MessageLogger extends Plugin
+class MessageLogger extends Command
 {
     /**
      * @inheritDoc

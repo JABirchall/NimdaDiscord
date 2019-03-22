@@ -3,9 +3,9 @@
 namespace Nimda\Core\Plugins;
 
 use CharlotteDunois\Yasmin\Models\Message;
-use Nimda\Core\Plugin;
+use Nimda\Core\Command;
 
-class SayHello extends Plugin
+class SayHello extends Command
 {
     /**
      * @inheritDoc

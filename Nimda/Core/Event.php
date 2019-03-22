@@ -8,7 +8,7 @@ use CharlotteDunois\Yasmin\Models\GuildMember;
  * Class UserEvent
  * @package Nimda\Core
  */
-abstract class UserEvent
+abstract class Event
 {
     /**
      * @var array $config Configuration for the event object

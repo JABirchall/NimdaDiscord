@@ -4,7 +4,7 @@ namespace Nimda;
 
 use CharlotteDunois\Yasmin\Client;
 use Nimda\Configuration\Discord;
-use Nimda\Core\PluginContainer;
+use Nimda\Core\CommandContainer;
 use Nimda\Core\TimerContainer;
 use Nimda\Core\EventContainer;
 use React\EventLoop\Factory;
@@ -27,9 +27,9 @@ final class Nimda
     private $client;
 
     /**
-     * @var \Nimda\Core\PluginContainer $plugins
+     * @var \Nimda\Core\CommandContainer $commands
      */
-    private $plugins;
+    private $commands;
 
     /**
      * @var \Nimda\Core\EventContainer $events
@@ -51,8 +51,8 @@ final class Nimda
         $this->loop = Factory::create();
         $this->client = new Client(Discord::$config['options'], $this->loop);
 
-        $this->plugins = new PluginContainer();
-        $this->plugins->loadPlugins();
+        $this->commands = new CommandContainer();
+        $this->commands->loadCommands();
 
         $this->timers = new TimerContainer($this->client);
         $this->timers->loadTimers();
@@ -85,7 +85,7 @@ final class Nimda
      */
     private function register()
     {
-        $this->client->on('message', [$this->plugins, 'onMessage']);
+        $this->client->on('message', [$this->commands, 'onMessage']);
         $this->client->on('ready', [$this, 'onReady']);
         $this->client->on("guildMemberAdd", [$this->events, 'guildMemberAdd']);
     }
