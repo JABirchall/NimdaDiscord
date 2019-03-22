@@ -55,7 +55,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## Authors
 
 * **JABirchall** - *Maintainer, Bot base, plugin system, timers*
-* **Thurston** - *Events, intern*
+* **Thurston** - *Intern, events*
 
 See also the list of [contributors](https://github.com/JABirchall/NimdaDiscord/graphs/contributors) who participated in this project.
 
