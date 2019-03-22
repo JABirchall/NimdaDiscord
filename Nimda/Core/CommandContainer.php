@@ -36,8 +36,8 @@ final class CommandContainer
      */
     public function loadCommands()
     {
-        $this->loadCoreCommands(Discord::$config['plugins']['core']);
-        $this->loadPublicCommands(Discord::$config['plugins']['public']);
+        $this->loadCoreCommands(Discord::$config['commands']['core']);
+        $this->loadPublicCommands(Discord::$config['commands']['public']);
 
         printf("Loading plugins completed\n");
     }
