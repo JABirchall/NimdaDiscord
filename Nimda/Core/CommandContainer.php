@@ -13,10 +13,10 @@ use Nimda\Configuration\Discord;
  */
 final class CommandContainer
 {
-    const CORE_COMMAND = 'Nimda\\Core\\Plugins\\';
+    const CORE_COMMAND = 'Nimda\\Core\\Commands\\';
     const CORE_COMMAND_CONFIG = 'Nimda\\Configuration\\Core\\';
-    const PUBLIC_COMMAND = 'Nimda\\Plugins\\';
-    const PUBLIC_COMMAND_CONFIG = 'Nimda\\Plugins\\Configuration\\';
+    const PUBLIC_COMMAND = 'Nimda\\Commands\\';
+    const PUBLIC_COMMAND_CONFIG = 'Nimda\\Commands\\Configuration\\';
 
     /**
      * @var \Illuminate\Support\Collection $commands

@@ -38,9 +38,9 @@ class Discord
              * Core plugins provided with Nimda with basic fundamental features
              */
             'core' => [
-                \Nimda\Core\Plugins\MessageLogger::class,
-                \Nimda\Core\Plugins\SayHello::class,
-                \Nimda\Core\Plugins\PurgeChat::class,
+                \Nimda\Core\Commands\MessageLogger::class,
+                \Nimda\Core\Commands\SayHello::class,
+                \Nimda\Core\Commands\PurgeChat::class,
             ],
             /**
              * Public plugins created by the community. The Nimda Team are not responsible for their functionality.
