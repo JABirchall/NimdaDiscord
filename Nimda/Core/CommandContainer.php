@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Nimda\Configuration\Discord;
 
 /**
- * Class PluginContainer
+ * Class CommandContainer
  * @package Nimda\Core
  */
 final class CommandContainer
@@ -24,7 +24,7 @@ final class CommandContainer
     protected $commands;
 
     /**
-     * PluginContainer constructor.
+     * commandContainer constructor.
      */
     public function __construct()
     {
@@ -32,90 +32,90 @@ final class CommandContainer
     }
 
     /**
-     * Setup plugins to receive events
+     * Setup commands to receive events
      */
     public function loadCommands()
     {
         $this->loadCoreCommands(Discord::$config['commands']['core']);
         $this->loadPublicCommands(Discord::$config['commands']['public']);
 
-        printf("Loading plugins completed\n");
+        printf("Loading commands completed\n");
     }
 
     /**
-     * Setup core plugins to receive events
+     * Setup core command to receive events
      *
-     * @param array $plugins
+     * @param array $commands
      */
-    private function loadCoreCommands(array $plugins)
+    private function loadCoreCommands(array $commands)
     {
-        foreach ($plugins as $plugin) {
-            if(!$this->precheckPlugin(self::CORE_COMMAND, $plugin)) {
+        foreach ($commands as $command) {
+            if(!$this->precheckCommand(self::CORE_COMMAND, $command)) {
                 continue;
             }
 
-            $config = $this->loadConfig(self::CORE_COMMAND, $plugin);
+            $config = $this->loadConfig(self::CORE_COMMAND, $command);
 
             if($config === null) {
                 continue;
             }
 
-            $loadedPlugin = new $plugin($config);
-            $this->setTrigger($loadedPlugin, $config);
+            $loadedCommand = new $command($config);
+            $this->setTrigger($loadedCommand, $config);
 
             printf("Completed\n");
         }
     }
 
     /**
-     * Setup public plugins to receive events
+     * Setup public commands to receive events
      *
-     * @param array $plugins
+     * @param array $commands
      */
-    private function loadPublicCommands(array $plugins)
+    private function loadPublicCommands(array $commands)
     {
-        foreach ($plugins as $plugin) {
-            if(!$this->precheckPlugin(self::PUBLIC_COMMAND, $plugin)) {
+        foreach ($commands as $command) {
+            if(!$this->precheckCommand(self::PUBLIC_COMMAND, $command)) {
                 continue;
             }
 
-            $config = $this->loadConfig(self::PUBLIC_COMMAND, $plugin);
+            $config = $this->loadConfig(self::PUBLIC_COMMAND, $command);
 
             if($config === null) {
                 continue;
             }
 
-            $loadedPlugin = new $plugin($config);
-            $this->setTrigger($loadedPlugin, $config);
+            $loadedCommand = new $command($config);
+            $this->setTrigger($loadedCommand, $config);
 
             printf("Completed\n");
         }
     }
 
     /**
-     * Validate a plugin is correctly setup before loading
+     * Validate a command is correctly setup before loading
      *
      * @param $namespace
-     * @param $plugin
+     * @param $command
      *
      * @return bool
      */
-    private function precheckPlugin($namespace, $plugin)
+    private function precheckCommand($namespace, $command)
     {
-        $pluginName = substr($plugin, strlen($namespace));
+        $commandClass = substr($command, strlen($namespace));
 
         $type = ($namespace == self::CORE_COMMAND) ? 'core' : 'public';
 
-        printf("%- 50s %s", "Loading {$type} plugin [{$pluginName}]", ":: ");
+        printf("%- 50s %s", "Loading {$type} command [{$commandClass}]", ":: ");
 
-        if (!class_exists($plugin)) {
-            printf("Loading failed because class %s doesn't exist.\n", $pluginName);
+        if (!class_exists($command)) {
+            printf("Loading failed because class %s doesn't exist.\n", $commandClass);
             return false;
         }
 
-        if(!is_subclass_of($plugin, Command::class))
+        if(!is_subclass_of($command, Command::class))
         {
-            printf("Loading failed because class %s doesn't extend %s.\n", $pluginName, Command::class);
+            printf("Loading failed because class %s doesn't extend %s.\n", $commandClass, Command::class);
             return false;
         }
 
@@ -123,38 +123,38 @@ final class CommandContainer
     }
 
     /**
-     * @internal Add the a plugin command mapped to its corresponding plugin to the container
+     * @internal Add the a command command mapped to its corresponding command to the container
      *
-     * @param Command $plugin
+     * @param Command $commandClass
      * @param array $config
      */
-    private function setTrigger(Command $plugin, array $config)
+    private function setTrigger(Command $commandClass, array $config)
     {
         if(array_key_exists('commands', $config['trigger'])) {
             $commands = $config['trigger']['commands'];
             foreach ($commands as $command) {
-                $this->commands->push([$command => $plugin]);
+                $this->commands->push([$command => $commandClass]);
             }
         }
     }
 
     /**
-     * @internal Load a plugins configuration
+     * @internal Load a ccommands configuration
      *
      * @param $namespace
-     * @param $plugin
+     * @param $command
      *
      * @return array|null
      */
-    private function loadConfig($namespace, $plugin)
+    private function loadConfig($namespace, $command)
     {
-        $plugin = substr($plugin, strlen($namespace));
+        $command = substr($command, strlen($namespace));
         $class = ($namespace == self::CORE_COMMAND) ?
-            self::CORE_COMMAND_CONFIG . $plugin :
-            self::PUBLIC_COMMAND_CONFIG . $plugin;
+            self::CORE_COMMAND_CONFIG . $command :
+            self::PUBLIC_COMMAND_CONFIG . $command;
 
         if (!class_exists($class)) {
-            printf("Loading failed because plugin %s does not have a config\n", $plugin);
+            printf("Loading failed because command %s does not have a config\n", $command);
             return null;
         }
 
@@ -191,7 +191,7 @@ final class CommandContainer
     }
 
     /**
-     * @internal Find a plugin for a chat command
+     * @internal Find a command for a chat command
      *
      * @param $text
      *
