@@ -33,17 +33,17 @@ class Discord
          * Command prefix, change this to what ever you wish (Note: / @ is reserved and interpreted by Discord)
          */
         'prefix' => '!',
-        'plugins' => [
+        'commands' => [
             /**
-             * Core plugins provided with Nimda with basic fundamental features
+             * Core commands provided with Nimda with basic fundamental features
              */
             'core' => [
-                \Nimda\Core\Plugins\MessageLogger::class,
-                \Nimda\Core\Plugins\SayHello::class,
-                \Nimda\Core\Plugins\PurgeChat::class,
+                \Nimda\Core\Commands\MessageLogger::class,
+                \Nimda\Core\Commands\SayHello::class,
+                \Nimda\Core\Commands\PurgeChat::class,
             ],
             /**
-             * Public plugins created by the community. The Nimda Team are not responsible for their functionality.
+             * Public commands created by the community. The Nimda Team are not responsible for their functionality.
              */
             'public' => [
 

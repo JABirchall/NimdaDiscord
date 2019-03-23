@@ -5,10 +5,10 @@ namespace Nimda\Core;
 use CharlotteDunois\Yasmin\Models\Message;
 
 /**
- * Class Plugin
+ * Class Command
  * @package Nimda\Core
  */
-abstract class Plugin
+abstract class Command
 {
     /**
      * @var array $config Configuration for the object
@@ -16,7 +16,7 @@ abstract class Plugin
     protected $config;
 
     /**
-     * Plugin constructor.
+     * Command constructor.
      *
      * @param array $config
      */
@@ -26,7 +26,7 @@ abstract class Plugin
     }
 
     /**
-     * Plugin trigger method triggered when a valid command has been matched.
+     * Command trigger method triggered when a valid command has been matched.
      *
      * @param Message $message
      * @param array $args

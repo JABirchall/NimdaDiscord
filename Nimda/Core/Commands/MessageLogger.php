@@ -1,17 +1,17 @@
 <?php
 
-namespace Nimda\Core\Plugins;
+namespace Nimda\Core\Commands;
 
 use CharlotteDunois\Yasmin\Models\Message;
-use Nimda\Core\Plugin;
+use Nimda\Core\Command;
 
-class SayHello extends Plugin
+class MessageLogger extends Command
 {
     /**
      * @inheritDoc
      */
     public function trigger(Message $message, array $args = [])
     {
-        $message->reply($this->config['message']);
+        // TODO: Implement trigger() method.
     }
 }

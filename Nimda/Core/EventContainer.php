@@ -112,9 +112,9 @@ final class EventContainer
             return false;
         }
 
-        if(!is_subclass_of($event, UserEvent::class))
+        if(!is_subclass_of($event, Event::class))
         {
-            printf("Loading failed because class %s doesn't extend %s.\n", $eventName, UserEvent::class);
+            printf("Loading failed because class %s doesn't extend %s.\n", $eventName, Event::class);
             return false;
         }
 
@@ -125,9 +125,9 @@ final class EventContainer
      * @internal Set the event trigger mapped to the plugin
      *
      * @param array $config
-     * @param UserEvent $event
+     * @param Event $event
      */
-    private function setUserTrigger(UserEvent $event, array $config)
+    private function setUserTrigger(Event $event, array $config)
     {
         if(array_key_exists('trigger', $config)) {
             $trigger = $config['trigger'];
@@ -173,7 +173,7 @@ final class EventContainer
             return;
         }
 
-        $events->each(function (UserEvent $event) use ($member) {
+        $events->each(function (Event $event) use ($member) {
             $event->userEventTrigger($member);
         });
     }

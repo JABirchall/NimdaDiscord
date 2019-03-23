@@ -5,10 +5,10 @@ namespace Nimda\Core;
 use CharlotteDunois\Yasmin\Models\GuildMember;
 
 /**
- * Class UserEvent
+ * Class Event
  * @package Nimda\Core
  */
-abstract class UserEvent
+abstract class Event
 {
     /**
      * @var array $config Configuration for the event object
@@ -16,7 +16,7 @@ abstract class UserEvent
     protected $config;
 
     /**
-     * Plugin constructor.
+     * Event constructor.
      *
      * @param array $config
      */
