@@ -139,7 +139,7 @@ final class CommandContainer
     }
 
     /**
-     * @internal Load a ccommands configuration
+     * @internal Load a commands configuration
      *
      * @param $namespace
      * @param $command
@@ -180,13 +180,18 @@ final class CommandContainer
             return;
         }
 
+        /** @var Command $command */
+        $command = $command->first();
+        if($command->middleware($message->member) === false) {
+            return; 
+        }
+
         $arguments = $this->parseArguments($plainText, $command->keys()->first());
 
         if($arguments === false) {
             return;
         }
 
-        $command = $command->first();
         $command->trigger($message, $arguments);
     }
 
