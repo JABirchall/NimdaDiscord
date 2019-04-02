@@ -3,6 +3,7 @@
 namespace Nimda\Core;
 
 use CharlotteDunois\Yasmin\Models\Message;
+use CharlotteDunois\Yasmin\Models\GuildMember;
 
 /**
  * Class Command
@@ -34,4 +35,18 @@ abstract class Command
      * @return mixed
      */
     abstract public function trigger(Message $message, array $args = []);
+
+    /**
+     * Middleware is triggered before the command is ran to check authorization.
+     * This method must be overridden by the commands specific middleware.
+     *
+     * @override
+     * @param GuildMember $author
+     *
+     * @return bool|true
+     */
+    public function middleware(GuildMember $author): bool
+    {
+        return true;
+    }
 }
