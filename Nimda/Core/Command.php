@@ -26,6 +26,13 @@ abstract class Command
         $this->config = $config;
     }
 
+    /**
+     * Perform actions to execute the command
+     *
+     * @param Message $message
+     * @param $plainText
+     * @param $commandPattern
+     */
     public function execute(Message $message, $plainText, $commandPattern)
     {
         if($this->middleware($message->member) === false) {
