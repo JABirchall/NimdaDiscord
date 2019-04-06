@@ -139,7 +139,7 @@ final class CommandContainer
     }
 
     /**
-     * @internal Load a ccommands configuration
+     * @internal Load a commands configuration
      *
      * @param $namespace
      * @param $command
@@ -168,7 +168,10 @@ final class CommandContainer
      */
     public function onMessage(Message $message)
     {
-        if(!Str::startsWith($message->content, Discord::$config['prefix']) || $message->author->bot) {
+        if(!Str::startsWith($message->content, Discord::$config['prefix']) ||
+            $message->author->bot ||
+            $message->author->id === $message->client->user->id ||
+            $message->guild === null) {
             return;
         }
 
@@ -179,15 +182,10 @@ final class CommandContainer
         if($command->isEmpty()) {
             return;
         }
-
-        $arguments = $this->parseArguments($plainText, $command->keys()->first());
-
-        if($arguments === false) {
-            return;
-        }
-
+        $commandPattern = $command->keys()->first();
         $command = $command->first();
-        $command->trigger($message, $arguments);
+
+        $command->execute($message, $plainText, $commandPattern);
     }
 
     /**
@@ -203,36 +201,5 @@ final class CommandContainer
             $commandShard = \explode(' ', \array_keys($command)[0])[0];
             return Str::startsWith($text, $commandShard);
         })->collapse();
-    }
-
-    /**
-     * @internal Checks and parses a chat command arguments
-     *
-     * @param string $message
-     * @param string $pattern
-     *
-     * @return array|false
-     */
-    private function parseArguments($message, $pattern)
-    {
-        //$commandRegex = '/\{((?:(?!\d+,?\d+?)\w)+?)\}/'; // Saved for legacy
-        $commandRegex = '/\{((?:(?!\d)\w)+?):?(?:(?<=\:)([[:graph:]]+))?\}/';
-        $pattern = str_replace('/', '\/', $pattern);
-        //$regex = '/^'.\preg_replace($commandRegex, '(?<$1>.*)', $pattern).' ?/miu'; // Saved for legacy
-
-        $onMatch = function ($matches) {
-            $pattern = $matches[2]??".*";
-            return "(?<{$matches[1]}>{$pattern})";
-        };
-
-        $regex = '/^'.\preg_replace_callback($commandRegex, $onMatch, $pattern).' ?/miu';
-        $regexMatched = (bool)\preg_match($regex, $message, $matches);
-
-        if($regexMatched === true)
-        {
-            return $matches;
-        }
-
-        return false;
     }
 }

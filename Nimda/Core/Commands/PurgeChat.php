@@ -2,7 +2,9 @@
 
 namespace Nimda\Core\Commands;
 
+use CharlotteDunois\Yasmin\Models\GuildMember;
 use CharlotteDunois\Yasmin\Models\Message;
+use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
 use Nimda\Core\Command;
 
@@ -27,5 +29,12 @@ class PurgeChat extends Command
                 $message->delete(10);
             });
         });
+    }
+
+    public function middleware(GuildMember $author): bool
+    {
+        return Collection::make($this->config['roles'])
+            ->intersect($author->roles->keys()->all())
+            ->isNotEmpty();
     }
 }

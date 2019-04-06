@@ -12,5 +12,8 @@ class PurgeChat
                 'purge {amount:\d+}',
             ]
         ],
+        'roles' => [
+            ''
+        ],
     ];
 }
