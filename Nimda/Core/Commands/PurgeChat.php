@@ -23,7 +23,6 @@ class PurgeChat extends Command
         }
 
         $reason = sprintf("[PurgeChat] User %s issued purge command on #%s for %i messages", $message->author, $message->channel, $args->get('amount'));
-
         $message->channel->bulkDelete($args->get('amount'), $reason)->otherwise(function () use ($message) {
             $message->channel->send("Can not delete messages older then 14 days!")->then(function (Message $message) {
                 $message->delete(10);

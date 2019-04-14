@@ -102,8 +102,7 @@ abstract class Command
 
         if($regexMatched === true)
         {
-            $matches = Collection::make($matches)->intersectByKeys($names);
-            return $matches;
+            return Collection::make($matches)->intersectByKeys($names);
         }
 
         return false;
