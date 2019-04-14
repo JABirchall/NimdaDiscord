@@ -4,6 +4,7 @@ namespace Nimda\Core;
 
 use CharlotteDunois\Yasmin\Models\Message;
 use CharlotteDunois\Yasmin\Models\GuildMember;
+use Nimda\Configuration\Discord;
 
 /**
  * Class Command
@@ -42,6 +43,10 @@ abstract class Command
         $arguments = $this->parseArguments($plainText, $commandPattern);
         if($arguments === false) {
             return;
+        }
+
+        if(Discord::$config['deleteCommands'] === true) {
+            $message->delete(5);
         }
 
         $this->trigger($message, $arguments);

@@ -33,6 +33,7 @@ class Discord
          * Command prefix, change this to what ever you wish (Note: / @ is reserved and interpreted by Discord)
          */
         'prefix' => '!',
+        'deleteCommands' => true,
         'commands' => [
             /**
              * Core commands provided with Nimda with basic fundamental features
