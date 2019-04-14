@@ -4,6 +4,7 @@ namespace Nimda\Core;
 
 use CharlotteDunois\Yasmin\Models\Message;
 use CharlotteDunois\Yasmin\Models\GuildMember;
+use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
 
 /**
@@ -60,7 +61,7 @@ abstract class Command
      *
      * @return mixed
      */
-    abstract public function trigger(Message $message, array $args = []);
+    abstract public function trigger(Message $message, Collection $args = null);
 
     /**
      * Middleware is triggered before the command is ran to check authorization.
@@ -82,17 +83,17 @@ abstract class Command
      * @param string $message
      * @param string $pattern
      *
-     * @return array|false
+     * @return Collection|false
      */
     private function parseArguments($message, $pattern)
     {
-        //$commandRegex = '/\{((?:(?!\d+,?\d+?)\w)+?)\}/'; // Saved for legacy
         $commandRegex = '/\{((?:(?!\d)\w)+?):?(?:(?<=\:)([[:graph:]]+))?\}/';
         $pattern = str_replace('/', '\/', $pattern);
-        //$regex = '/^'.\preg_replace($commandRegex, '(?<$1>.*)', $pattern).' ?/miu'; // Saved for legacy
+        $names = [];
 
-        $onMatch = function ($matches) {
+        $onMatch = function ($matches) use (&$names) {
             $pattern = $matches[2]??".*";
+            $names[$matches[1]] = $matches[1];
             return "(?<{$matches[1]}>{$pattern})";
         };
 
@@ -101,10 +102,10 @@ abstract class Command
 
         if($regexMatched === true)
         {
+            $matches = Collection::make($matches)->intersectByKeys($names);
             return $matches;
         }
 
         return false;
     }
-
 }
