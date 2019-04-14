@@ -3,8 +3,8 @@
 namespace Nimda\Core\Events;
 
 use CharlotteDunois\Yasmin\Models\GuildMember;
-use Nimda\Core\Event;
 use CharlotteDunois\Yasmin\Models\MessageEmbed;
+use Nimda\Core\Event;
 
 class WelcomeMessage extends Event
 {
@@ -24,14 +24,14 @@ class WelcomeMessage extends Event
         } elseif ($this->config['embed'] === true) {
             $embed = new MessageEmbed();
             $embed->setTitle('Member Joined!')
-                ->addField(" ID: ".$member, "Name: ".$member->displayName)
+                ->addField(" ID: " . $member, "Name: " . $member->displayName)
                 ->setColor(16777215)
                 ->setTimestamp()
-                ->setFooter('User ID: '.$member->id);
+                ->setFooter('User ID: ' . $member->id);
 
             $channel->send('', array('embed' => $embed))
                 ->otherwise(function ($error) {
-                    echo $error.PHP_EOL;
+                    echo $error . PHP_EOL;
                 });
         } else {
             echo "[WelcomeMessage] Mention and Embed are both set to false, no messages will display. If this is your intention, please set 'enable' to false!";

@@ -38,10 +38,10 @@ final class TimerContainer
      */
     public function loadTimers()
     {
-            $this->loadCoreTimers(Discord::$config['timers']['core']);
-            $this->loadPublicTimers(Discord::$config['timers']['public']);
+        $this->loadCoreTimers(Discord::$config['timers']['core']);
+        $this->loadPublicTimers(Discord::$config['timers']['public']);
 
-            printf("Loading timers completed.\n");
+        printf("Loading timers completed.\n");
     }
 
     /**
@@ -52,13 +52,13 @@ final class TimerContainer
     public function loadCoreTimers(array $timers)
     {
         foreach ($timers as $timer) {
-            if(!$this->precheckTimers(self::CORE_TIMER, $timer)) {
+            if (!$this->precheckTimers(self::CORE_TIMER, $timer)) {
                 continue;
             }
 
             $config = $this->loadConfig(self::CORE_TIMER, $timer);
 
-            if($config === null) {
+            if ($config === null) {
                 continue;
             }
 
@@ -78,13 +78,13 @@ final class TimerContainer
     public function loadPublicTimers(array $timers)
     {
         foreach ($timers as $timer) {
-            if(!$this->precheckTimers(self::PUBLIC_TIMER, $timer)) {
+            if (!$this->precheckTimers(self::PUBLIC_TIMER, $timer)) {
                 continue;
             }
 
             $config = $this->loadConfig(self::PUBLIC_TIMER, $timer);
 
-            if($config === null) {
+            if ($config === null) {
                 continue;
             }
 
@@ -97,12 +97,12 @@ final class TimerContainer
     }
 
     /**
-     * @internal Validate a timer is correctly setup before loading
-     *
      * @param $namespace
      * @param $timer
      *
      * @return bool
+     * @internal Validate a timer is correctly setup before loading
+     *
      */
     private function precheckTimers($namespace, $timer)
     {
@@ -117,8 +117,7 @@ final class TimerContainer
             return false;
         }
 
-        if(!is_subclass_of($timer, Timer::class))
-        {
+        if (!is_subclass_of($timer, Timer::class)) {
             printf("Loading failed because class %s doesn't extend %s.\n", $timerName, Timer::class);
             return false;
         }
@@ -127,12 +126,12 @@ final class TimerContainer
     }
 
     /**
-     * @internal Load a plugin for a timer
-     *
      * @param $namespace
      * @param $timer
      *
      * @return array|null
+     * @internal Load a plugin for a timer
+     *
      */
     private function loadConfig($namespace, $timer)
     {
@@ -150,10 +149,10 @@ final class TimerContainer
     }
 
     /**
-     * @internal Add the timer to the timer loop set by timout
-     *
      * @param Timer $timer
      * @param array $config
+     * @internal Add the timer to the timer loop set by timout
+     *
      */
     private function setTimer(Timer $timer, $config)
     {

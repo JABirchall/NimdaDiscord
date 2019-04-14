@@ -2,8 +2,8 @@
 
 namespace Nimda\Core;
 
-use CharlotteDunois\Yasmin\Models\Message;
 use CharlotteDunois\Yasmin\Models\GuildMember;
+use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
 
@@ -37,16 +37,16 @@ abstract class Command
      */
     public function execute(Message $message, $plainText, $commandPattern)
     {
-        if($this->middleware($message->member) === false) {
+        if ($this->middleware($message->member) === false) {
             return;
         }
 
         $arguments = $this->parseArguments($plainText, $commandPattern);
-        if($arguments === false) {
+        if ($arguments === false) {
             return;
         }
 
-        if(Discord::$config['deleteCommands'] === true) {
+        if (Discord::$config['deleteCommands'] === true) {
             $message->delete(5);
         }
 
@@ -78,12 +78,12 @@ abstract class Command
     }
 
     /**
-     * @internal Checks and parses a chat command arguments
-     *
      * @param string $message
      * @param string $pattern
      *
      * @return Collection|false
+     * @internal Checks and parses a chat command arguments
+     *
      */
     private function parseArguments($message, $pattern)
     {
@@ -92,16 +92,15 @@ abstract class Command
         $names = [];
 
         $onMatch = function ($matches) use (&$names) {
-            $pattern = $matches[2]??".*";
+            $pattern = $matches[2] ?? ".*";
             $names[$matches[1]] = $matches[1];
             return "(?<{$matches[1]}>{$pattern})";
         };
 
-        $regex = '/^'.\preg_replace_callback($commandRegex, $onMatch, $pattern).' ?/miu';
+        $regex = '/^' . \preg_replace_callback($commandRegex, $onMatch, $pattern) . ' ?/miu';
         $regexMatched = (bool)\preg_match($regex, $message, $matches);
 
-        if($regexMatched === true)
-        {
+        if ($regexMatched === true) {
             return Collection::make($matches)->intersectByKeys($names);
         }
 

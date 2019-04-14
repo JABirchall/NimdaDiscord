@@ -50,13 +50,13 @@ final class CommandContainer
     private function loadCoreCommands(array $commands)
     {
         foreach ($commands as $command) {
-            if(!$this->precheckCommand(self::CORE_COMMAND, $command)) {
+            if (!$this->precheckCommand(self::CORE_COMMAND, $command)) {
                 continue;
             }
 
             $config = $this->loadConfig(self::CORE_COMMAND, $command);
 
-            if($config === null) {
+            if ($config === null) {
                 continue;
             }
 
@@ -75,13 +75,13 @@ final class CommandContainer
     private function loadPublicCommands(array $commands)
     {
         foreach ($commands as $command) {
-            if(!$this->precheckCommand(self::PUBLIC_COMMAND, $command)) {
+            if (!$this->precheckCommand(self::PUBLIC_COMMAND, $command)) {
                 continue;
             }
 
             $config = $this->loadConfig(self::PUBLIC_COMMAND, $command);
 
-            if($config === null) {
+            if ($config === null) {
                 continue;
             }
 
@@ -113,8 +113,7 @@ final class CommandContainer
             return false;
         }
 
-        if(!is_subclass_of($command, Command::class))
-        {
+        if (!is_subclass_of($command, Command::class)) {
             printf("Loading failed because class %s doesn't extend %s.\n", $commandClass, Command::class);
             return false;
         }
@@ -123,14 +122,14 @@ final class CommandContainer
     }
 
     /**
-     * @internal Add the a command command mapped to its corresponding command to the container
-     *
      * @param Command $commandClass
      * @param array $config
+     * @internal Add the a command command mapped to its corresponding command to the container
+     *
      */
     private function setTrigger(Command $commandClass, array $config)
     {
-        if(array_key_exists('commands', $config['trigger'])) {
+        if (array_key_exists('commands', $config['trigger'])) {
             $commands = $config['trigger']['commands'];
             foreach ($commands as $command) {
                 $this->commands->push([$command => $commandClass]);
@@ -139,12 +138,12 @@ final class CommandContainer
     }
 
     /**
-     * @internal Load a commands configuration
-     *
      * @param $namespace
      * @param $command
      *
      * @return array|null
+     * @internal Load a commands configuration
+     *
      */
     private function loadConfig($namespace, $command)
     {
@@ -168,7 +167,7 @@ final class CommandContainer
      */
     public function onMessage(Message $message)
     {
-        if(!Str::startsWith($message->content, Discord::$config['prefix']) ||
+        if (!Str::startsWith($message->content, Discord::$config['prefix']) ||
             $message->author->bot ||
             $message->author->id === $message->client->user->id ||
             $message->guild === null) {
@@ -179,7 +178,7 @@ final class CommandContainer
 
         $command = $this->findCommand($plainText);
 
-        if($command->isEmpty()) {
+        if ($command->isEmpty()) {
             return;
         }
         $commandPattern = $command->keys()->first();
@@ -189,15 +188,15 @@ final class CommandContainer
     }
 
     /**
-     * @internal Find a command for a chat command
-     *
      * @param $text
      *
      * @return Collection
+     * @internal Find a command for a chat command
+     *
      */
     private function findCommand($text)
     {
-        return $this->commands->filter(function ($command) use ($text){
+        return $this->commands->filter(function ($command) use ($text) {
             $commandShard = \explode(' ', \array_keys($command)[0])[0];
             return Str::startsWith($text, $commandShard);
         })->collapse();

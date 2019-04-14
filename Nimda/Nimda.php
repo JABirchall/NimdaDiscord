@@ -5,8 +5,8 @@ namespace Nimda;
 use CharlotteDunois\Yasmin\Client;
 use Nimda\Configuration\Discord;
 use Nimda\Core\CommandContainer;
-use Nimda\Core\TimerContainer;
 use Nimda\Core\EventContainer;
+use Nimda\Core\TimerContainer;
 use React\EventLoop\Factory;
 
 
@@ -77,7 +77,8 @@ final class Nimda
      */
     public function onReady()
     {
-        printf('Logged in as %s created on %s'.PHP_EOL, $this->client->user->tag, $this->client->user->createdAt->format('d.m.Y H:i:s'));
+        printf('Logged in as %s created on %s' . PHP_EOL, $this->client->user->tag,
+            $this->client->user->createdAt->format('d.m.Y H:i:s'));
     }
 
     /**
@@ -91,20 +92,21 @@ final class Nimda
     }
 
     /**
+     * @throws \Exception & \Throwable
      * @internal Check for invalid options before booting
      *
-     * @throws \Exception & \Throwable
      */
     private function startupCheck()
     {
-        throw_if(\PHP_SAPI !== 'cli', \Exception::class, 'Nimda can only be used in the CLI SAPI. Please use PHP CLI to run Nimda.');
+        throw_if(\PHP_SAPI !== 'cli', \Exception::class,
+            'Nimda can only be used in the CLI SAPI. Please use PHP CLI to run Nimda.');
 
         throw_if(Discord::$config['client_token'] === '', \Exception::class, 'No client token set in config.');
 
         if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN' && posix_getuid() === 0) {
             printf("[WARNING] Running Nimda as root is dangerous!\nStart anyway? Y/N: ");
 
-            $answer = strcasecmp(rtrim(fgets(STDIN)),'y');
+            $answer = strcasecmp(rtrim(fgets(STDIN)), 'y');
             throw_if($answer !== 0, \Exception::class, 'Nimda running as root, user aborted.');
         }
     }

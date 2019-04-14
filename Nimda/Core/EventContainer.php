@@ -42,20 +42,20 @@ final class EventContainer
     }
 
     /**
+     * @param array $events
      * @internal Setup Core Events
      *
-     * @param array $events
      */
     private function loadCoreEvents(array $events)
     {
         foreach ($events as $event) {
-            if(!$this->precheckEvent(self::CORE_EVENT, $event)) {
+            if (!$this->precheckEvent(self::CORE_EVENT, $event)) {
                 continue;
             }
 
             $config = $this->loadConfig(self::CORE_EVENT, $event);
 
-            if($config === null) {
+            if ($config === null) {
                 continue;
             }
 
@@ -67,20 +67,20 @@ final class EventContainer
     }
 
     /**
+     * @param array $events
      * @internal Setup Public Events
      *
-     * @param array $events
      */
     private function loadPublicEvents(array $events)
     {
         foreach ($events as $event) {
-            if(!$this->precheckEvent(self::PUBLIC_EVENT, $event)) {
+            if (!$this->precheckEvent(self::PUBLIC_EVENT, $event)) {
                 continue;
             }
 
             $config = $this->loadConfig(self::PUBLIC_EVENT, $event);
 
-            if($config === null) {
+            if ($config === null) {
                 continue;
             }
 
@@ -92,12 +92,12 @@ final class EventContainer
     }
 
     /**
-     * @internal Validate a event is valid before loading it.
-     *
      * @param $namespace
      * @param $event
      *
      * @return bool
+     * @internal Validate a event is valid before loading it.
+     *
      */
     private function precheckEvent($namespace, $event)
     {
@@ -112,8 +112,7 @@ final class EventContainer
             return false;
         }
 
-        if(!is_subclass_of($event, Event::class))
-        {
+        if (!is_subclass_of($event, Event::class)) {
             printf("Loading failed because class %s doesn't extend %s.\n", $eventName, Event::class);
             return false;
         }
@@ -122,26 +121,26 @@ final class EventContainer
     }
 
     /**
-     * @internal Set the event trigger mapped to the plugin
-     *
      * @param array $config
      * @param Event $event
+     * @internal Set the event trigger mapped to the plugin
+     *
      */
     private function setUserTrigger(Event $event, array $config)
     {
-        if(array_key_exists('trigger', $config)) {
+        if (array_key_exists('trigger', $config)) {
             $trigger = $config['trigger'];
             $this->events->push([$trigger => $event]);
         }
     }
 
     /**
-     * @internal Load the event configuration
-     *
      * @param $namespace
      * @param $event
      *
      * @return array|null
+     * @internal Load the event configuration
+     *
      */
     private function loadConfig($namespace, $event)
     {
@@ -166,10 +165,10 @@ final class EventContainer
     public function guildMemberAdd(GuildMember $member)
     {
         $events = $this->events->filter(function ($event) {
-           return 'guildMemberAdd' === array_keys($event)[0];
+            return 'guildMemberAdd' === array_keys($event)[0];
         })->collapse();
 
-        if($events->isEmpty()){
+        if ($events->isEmpty()) {
             return;
         }
 
