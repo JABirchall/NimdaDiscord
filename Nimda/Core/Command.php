@@ -13,6 +13,8 @@ use Nimda\Configuration\Discord;
  */
 abstract class Command
 {
+    const COMMAND_REGEX = '/\{((?:(?!\d)\w)+?):?(?:(?<=\:)([[:graph:]]+))?\}/';
+
     /**
      * @var array $config Configuration for the object
      */
@@ -87,17 +89,15 @@ abstract class Command
      */
     private function parseArguments($message, $pattern)
     {
-        $commandRegex = '/\{((?:(?!\d)\w)+?):?(?:(?<=\:)([[:graph:]]+))?\}/';
-        $pattern = str_replace('/', '\/', $pattern);
         $names = [];
-
         $onMatch = function ($matches) use (&$names) {
             $pattern = $matches[2] ?? ".*";
             $names[$matches[1]] = $matches[1];
-            return "(?<{$matches[1]}>{$pattern})";
+            return "?(?<{$matches[1]}>{$pattern})";
         };
 
-        $regex = '/^' . \preg_replace_callback($commandRegex, $onMatch, $pattern) . ' ?/miu';
+        $pattern = \str_replace('/', '\/', $pattern);
+        $regex = '/^' . \preg_replace_callback(self::COMMAND_REGEX, $onMatch, $pattern) . '/miu';
         $regexMatched = (bool)\preg_match($regex, $message, $matches);
 
         if ($regexMatched === true) {
