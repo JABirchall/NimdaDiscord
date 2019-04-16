@@ -76,7 +76,7 @@ abstract class Command
      * @override
      * @param GuildMember $author
      *
-     * @return bool|true
+     * @return bool
      */
     public function middleware(GuildMember $author): bool
     {
