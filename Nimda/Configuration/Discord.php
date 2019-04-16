@@ -42,6 +42,7 @@ class Discord
                 \Nimda\Core\Commands\MessageLogger::class,
                 \Nimda\Core\Commands\SayHello::class,
                 \Nimda\Core\Commands\PurgeChat::class,
+                \Nimda\Core\Commands\Dice::class,
             ],
             /**
              * Public commands created by the community. The Nimda Team are not responsible for their functionality.
