@@ -59,7 +59,7 @@ abstract class Command
      * Command trigger method triggered when a valid command has been matched.
      *
      * @param Message $message
-     * @param array $args
+     * @param Collection $args
      *
      * @return mixed
      */
