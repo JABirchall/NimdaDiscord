@@ -1,7 +1,7 @@
 {
   "name": "jabirchall/nimdadiscord",
   "description": "An Advanced Discord Bot with a nice plugin autoloading. ",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "license": "GNU LGPL",
   "authors": [
     {
@@ -10,8 +10,8 @@
     }
   ],
   "require": {
-    "charlottedunois/yasmin": "v0.5.1",
-    "illuminate/database": "5.7.19"
+    "charlottedunois/yasmin": "~v0.5.1",
+    "illuminate/database": "~5.7.0"
   },
   "autoload": {
     "psr-4": {
