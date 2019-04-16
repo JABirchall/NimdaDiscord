@@ -3,6 +3,7 @@
 namespace Nimda\Core;
 
 use CharlotteDunois\Yasmin\Client;
+use React\Promise\ExtendedPromiseInterface;
 
 /**
  * Class Timer
@@ -30,7 +31,7 @@ abstract class Timer
      *
      * @param Client $client
      *
-     * @return mixed
+     * @return ExtendedPromiseInterface
      */
     abstract public function trigger(Client $client);
 }

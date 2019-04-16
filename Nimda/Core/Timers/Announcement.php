@@ -12,8 +12,6 @@ class Announcement extends Timer
      */
     public function trigger(Client $client)
     {
-        /* @var \CharlotteDunois\Yasmin\Models\TextChannel $channel */
-        $channel = $client->guilds->get($this->config['guildId'])->channels->get($this->config['channelId']);
-        $channel->send($this->config['message']);
+        return $client->channels->get($this->config['channelId'])->send($this->config['message']);
     }
 }

@@ -6,6 +6,8 @@ use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Nimda\Configuration\Discord;
+use React\Promise\ExtendedPromiseInterface;
+use React\Promise\Promise;
 
 /**
  * Class CommandContainer
@@ -164,6 +166,7 @@ final class CommandContainer
      * Check a message for chat command
      *
      * @param Message $message
+     * @return ExtendedPromiseInterface
      */
     public function onMessage(Message $message)
     {
@@ -171,7 +174,7 @@ final class CommandContainer
             $message->author->bot ||
             $message->author->id === $message->client->user->id ||
             $message->guild === null) {
-            return;
+            return null;
         }
 
         $plainText = Str::lower(Str::after($message->content, Discord::$config['prefix']));
@@ -179,12 +182,12 @@ final class CommandContainer
         $command = $this->findCommand($plainText);
 
         if ($command->isEmpty()) {
-            return;
+            return null;
         }
         $commandPattern = $command->keys()->first();
         $command = $command->first();
 
-        $command->execute($message, $plainText, $commandPattern);
+        return $command->execute($message, $plainText, $commandPattern);
     }
 
     /**

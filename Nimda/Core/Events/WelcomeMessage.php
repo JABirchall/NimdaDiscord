@@ -2,6 +2,7 @@
 
 namespace Nimda\Core\Events;
 
+use CharlotteDunois\Yasmin\Interfaces\TextChannelInterface;
 use CharlotteDunois\Yasmin\Models\GuildMember;
 use CharlotteDunois\Yasmin\Models\MessageEmbed;
 use Nimda\Core\Event;
@@ -13,14 +14,14 @@ class WelcomeMessage extends Event
      */
     public function userEventTrigger(GuildMember $member, GuildMember $memberOld = null)
     {
-        if ($this->config['enabled'] === false || $this->config['channel'] === '') {
-            return;
+        if ($this->config['channel'] === '') {
+            return null;
         }
-        /* @var \CharlotteDunois\Yasmin\Models\TextChannel $channel */
+        /* @var TextChannelInterface $channel */
         $channel = $member->guild->channels->get($this->config['channel']);
 
         if ($this->config['mention'] === true) {
-            $channel->send("Welcome to {$member->guild->name}, {$member}");
+            return $channel->send("Welcome to {$member->guild->name}, {$member}");
         } elseif ($this->config['embed'] === true) {
             $embed = new MessageEmbed();
             $embed->setTitle('Member Joined!')
@@ -29,12 +30,11 @@ class WelcomeMessage extends Event
                 ->setTimestamp()
                 ->setFooter('User ID: ' . $member->id);
 
-            $channel->send('', array('embed' => $embed))
+            return $channel->send('', ['embed' => $embed])
                 ->otherwise(function ($error) {
                     echo $error . PHP_EOL;
+                    return false;
                 });
-        } else {
-            echo "[WelcomeMessage] Mention and Embed are both set to false, no messages will display. If this is your intention, please set 'enable' to false!";
         }
     }
 }

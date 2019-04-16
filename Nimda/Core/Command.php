@@ -6,6 +6,8 @@ use CharlotteDunois\Yasmin\Models\GuildMember;
 use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
+use React\Promise\ExtendedPromiseInterface;
+use React\Promise\Promise;
 
 /**
  * Class Command
@@ -36,23 +38,25 @@ abstract class Command
      * @param Message $message
      * @param $plainText
      * @param $commandPattern
+     *
+     * @return ExtendedPromiseInterface
      */
     public function execute(Message $message, $plainText, $commandPattern)
     {
         if ($this->middleware($message->member) === false) {
-            return;
+            return null;
         }
 
         $arguments = $this->parseArguments($plainText, $commandPattern);
         if ($arguments === false) {
-            return;
+            return null;
         }
 
         if (Discord::$config['deleteCommands'] === true) {
             $message->delete(5);
         }
 
-        $this->trigger($message, $arguments);
+        return $this->trigger($message, $arguments);
     }
 
     /**
@@ -61,7 +65,7 @@ abstract class Command
      * @param Message $message
      * @param Collection $args
      *
-     * @return mixed
+     * @return ExtendedPromiseInterface
      */
     abstract public function trigger(Message $message, Collection $args = null);
 

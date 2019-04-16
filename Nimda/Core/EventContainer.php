@@ -173,7 +173,7 @@ final class EventContainer
         }
 
         $events->each(function (Event $event) use ($member) {
-            $event->userEventTrigger($member);
+            return $event->userEventTrigger($member);
         });
     }
 }

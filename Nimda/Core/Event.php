@@ -3,6 +3,7 @@
 namespace Nimda\Core;
 
 use CharlotteDunois\Yasmin\Models\GuildMember;
+use React\Promise\ExtendedPromiseInterface;
 
 /**
  * Class Event
@@ -31,7 +32,7 @@ abstract class Event
      * @param GuildMember $member
      * @param GuildMember|null $memberOld
      *
-     * @return mixed
+     * @return ExtendedPromiseInterface
      */
     abstract public function userEventTrigger(GuildMember $member, GuildMember $memberOld = null);
 }
