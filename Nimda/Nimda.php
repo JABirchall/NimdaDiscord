@@ -5,6 +5,7 @@ namespace Nimda;
 use CharlotteDunois\Yasmin\Client;
 use Nimda\Configuration\Discord;
 use Nimda\Core\CommandContainer;
+use Nimda\Core\Database;
 use Nimda\Core\EventContainer;
 use Nimda\Core\TimerContainer;
 use React\EventLoop\Factory;
@@ -61,6 +62,8 @@ final class Nimda
         $this->events->loadEvents();
 
         $this->register();
+
+        Database::boot();
     }
 
     /**
@@ -98,8 +101,7 @@ final class Nimda
      */
     private function startupCheck()
     {
-        throw_if(\PHP_SAPI !== 'cli', \Exception::class,
-            'Nimda can only be used in the CLI SAPI. Please use PHP CLI to run Nimda.');
+        throw_if(\PHP_SAPI !== 'cli', \Exception::class, 'Nimda can only be used in the CLI SAPI. Please use PHP CLI to run Nimda.');
 
         throw_if(Discord::$config['client_token'] === '', \Exception::class, 'No client token set in config.');
 

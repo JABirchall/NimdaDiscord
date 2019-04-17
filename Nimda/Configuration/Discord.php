@@ -27,7 +27,7 @@ class Discord
             'messageSweepInterval' => 600,
             'presenceCache' => false,
             'userSweepInterval' => 600,
-            'ws.disabledEvents' => ['TYPING_START'], // Do not remove TYPING_START
+            'ws.disabledEvents' => [],
         ],
         /**
          * Command prefix, change this to what ever you wish (Note: / @ is reserved and interpreted by Discord)
@@ -39,7 +39,7 @@ class Discord
              * Core commands provided with Nimda with basic fundamental features
              */
             'core' => [
-                \Nimda\Core\Commands\MessageLogger::class,
+                # \Nimda\Core\Commands\MessageLogger::class,
                 \Nimda\Core\Commands\SayHello::class,
                 \Nimda\Core\Commands\PurgeChat::class,
                 \Nimda\Core\Commands\Dice::class,
