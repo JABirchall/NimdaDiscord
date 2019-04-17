@@ -11,8 +11,8 @@ class Dice extends Command
 {
     public function trigger(Message $message, Collection $args = null)
     {
-        $sides = $args->get('sides') ?? $this->config['default']['sides'];
-        $dice = $args->get('dice') ?? $this->config['default']['dice'];
+        $sides = $args->get('sides', $this->config['default']['sides']);
+        $dice = $args->get('dice', $this->config['default']['dice']);
 
         if ($sides < 2) {
             return $message->reply("You can not roll dice with 1 side, what are you, stupid?")->then(function (Message $message) {
