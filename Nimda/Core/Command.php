@@ -110,4 +110,17 @@ abstract class Command
 
         return false;
     }
+
+    public function match($message, $pattern)
+    {
+        $onMatch = function ($matches) {
+            $pattern = $matches[2] ?? ".*";
+            return "?({$pattern})";
+        };
+
+        $pattern = \str_replace('/', '\/', $pattern);
+        $regex = '/^' . \preg_replace_callback(self::COMMAND_REGEX, $onMatch, $pattern) . '/miu';
+        $match = (bool)\preg_match($regex, $message, $matches);
+        return $match;
+    }
 }

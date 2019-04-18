@@ -42,6 +42,7 @@ class Database
                 'prefix'   => 'nimda_',
                 'charset' => 'utf-8',
                 'collation' => 'utf8_unicode_ci',
+                'sticky'    => true,
             ],
             'mysql' => [
                 'driver'    => 'mysql',
@@ -53,6 +54,7 @@ class Database
                 'collation' => 'utf8_unicode_ci',
                 'prefix'    => 'nimda_',
                 'strict'    => false,
+                'sticky'    => true,
             ],
             'pgsql' => [
                 'driver'   => 'pgsql',

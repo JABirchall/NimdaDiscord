@@ -51,6 +51,7 @@ final class Nimda
         $this->startupCheck();
         $this->loop = Factory::create();
         $this->client = new Client(Discord::$config['options'], $this->loop);
+        Database::boot();
 
         $this->commands = new CommandContainer();
         $this->commands->loadCommands();
@@ -62,8 +63,6 @@ final class Nimda
         $this->events->loadEvents();
 
         $this->register();
-
-        Database::boot();
     }
 
     /**

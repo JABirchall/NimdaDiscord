@@ -63,6 +63,11 @@ final class CommandContainer
             }
 
             $loadedCommand = new $command($config);
+
+            if (method_exists($loadedCommand, 'install')) {
+                $loadedCommand->install();
+            }
+
             $this->setTrigger($loadedCommand, $config);
 
             printf("Completed\n");
@@ -88,6 +93,11 @@ final class CommandContainer
             }
 
             $loadedCommand = new $command($config);
+
+            if (method_exists($loadedCommand, 'install')) {
+                $loadedCommand->install();
+            }
+
             $this->setTrigger($loadedCommand, $config);
 
             printf("Completed\n");
@@ -200,8 +210,13 @@ final class CommandContainer
     private function findCommand($text)
     {
         return $this->commands->filter(function ($command) use ($text) {
-            $commandShard = \explode(' ', \array_keys($command)[0])[0];
-            return Str::startsWith($text, $commandShard);
+            $key = \array_keys($command)[0];
+            /** @var Command $command */
+            $command = $command[$key];
+            $match = $command->match($text, $key);
+            return $match;
+            //$commandShard = \explode(' ', \array_keys($command)[0])[0];
+            //return Str::startsWith($text, $commandShard);
         })->collapse();
     }
 }
