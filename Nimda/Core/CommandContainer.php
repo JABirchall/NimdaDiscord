@@ -213,8 +213,7 @@ final class CommandContainer
             $key = \array_keys($command)[0];
             /** @var Command $command */
             $command = $command[$key];
-            $match = $command->match($text, $key);
-            return $match;
+            return $command->match($text, $key);
             //$commandShard = \explode(' ', \array_keys($command)[0])[0];
             //return Str::startsWith($text, $commandShard);
         })->collapse();

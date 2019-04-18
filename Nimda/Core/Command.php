@@ -120,7 +120,6 @@ abstract class Command
 
         $pattern = \str_replace('/', '\/', $pattern);
         $regex = '/^' . \preg_replace_callback(self::COMMAND_REGEX, $onMatch, $pattern) . '/miu';
-        $match = (bool)\preg_match($regex, $message, $matches);
-        return $match;
+        return (bool)\preg_match($regex, $message, $matches);
     }
 }
