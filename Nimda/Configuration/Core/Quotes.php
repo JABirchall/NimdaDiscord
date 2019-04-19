@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Nimda\Configuration\Core;
-
 
 class Quotes
 {

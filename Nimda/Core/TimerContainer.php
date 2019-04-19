@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Nimda\Core;
 
@@ -36,7 +36,7 @@ final class TimerContainer
     /**
      * Setup timers
      */
-    public function loadTimers()
+    public function loadTimers(): void
     {
         $this->loadCoreTimers(Discord::$config['timers']['core']);
         $this->loadPublicTimers(Discord::$config['timers']['public']);
@@ -49,7 +49,7 @@ final class TimerContainer
      *
      * @param array $timers
      */
-    public function loadCoreTimers(array $timers)
+    public function loadCoreTimers(array $timers): void
     {
         foreach ($timers as $timer) {
             if (!$this->precheckTimers(self::CORE_TIMER, $timer)) {
@@ -75,7 +75,7 @@ final class TimerContainer
      *
      * @param array $timers
      */
-    public function loadPublicTimers(array $timers)
+    public function loadPublicTimers(array $timers): void
     {
         foreach ($timers as $timer) {
             if (!$this->precheckTimers(self::PUBLIC_TIMER, $timer)) {
@@ -104,7 +104,7 @@ final class TimerContainer
      * @internal Validate a timer is correctly setup before loading
      *
      */
-    private function precheckTimers($namespace, $timer)
+    private function precheckTimers($namespace, $timer): bool
     {
         $timerName = substr($timer, strlen($namespace));
 
@@ -133,7 +133,7 @@ final class TimerContainer
      * @internal Load a plugin for a timer
      *
      */
-    private function loadConfig($namespace, $timer)
+    private function loadConfig($namespace, $timer): ?array
     {
         $timerName = substr($timer, strlen($namespace));
         $class = ($namespace == self::CORE_TIMER) ?
@@ -154,7 +154,7 @@ final class TimerContainer
      * @internal Add the timer to the timer loop set by timout
      *
      */
-    private function setTimer(Timer $timer, $config)
+    private function setTimer(Timer $timer, $config): void
     {
         if ($config['once'] === true) {
             $this->client->addTimer($config['interval'], [$timer, 'trigger']);

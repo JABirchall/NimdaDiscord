@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Nimda\Core;
 
 use CharlotteDunois\Yasmin\Client;
 use React\Promise\ExtendedPromiseInterface;
+use React\Promise\PromiseInterface;
 
 /**
  * Class Timer
@@ -33,5 +34,5 @@ abstract class Timer
      *
      * @return ExtendedPromiseInterface
      */
-    abstract public function trigger(Client $client);
+    abstract public function trigger(Client $client): PromiseInterface;
 }

@@ -6,10 +6,11 @@ use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Nimda\Core\Command;
+use React\Promise\PromiseInterface;
 
 class Dice extends Command
 {
-    public function trigger(Message $message, Collection $args = null)
+    public function trigger(Message $message, Collection $args = null): PromiseInterface
     {
         $sides = $args->get('sides', $this->config['default']['sides']);
         $dice = $args->get('dice', $this->config['default']['dice']);

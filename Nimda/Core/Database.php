@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace Nimda\Core;
 
 use Illuminate\Database\Capsule\Manager;
@@ -9,7 +10,7 @@ class Database
 {
     public static $manager;
 
-    public static function boot()
+    public static function boot(): void
     {
         printf("Booting database driver - ");
         self::$manager = new Manager;

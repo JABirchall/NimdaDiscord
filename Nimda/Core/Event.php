@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Nimda\Core;
 
 use CharlotteDunois\Yasmin\Models\GuildMember;
-use React\Promise\ExtendedPromiseInterface;
+use React\Promise\PromiseInterface;
 
 /**
  * Class Event
@@ -32,7 +32,7 @@ abstract class Event
      * @param GuildMember $member
      * @param GuildMember|null $memberOld
      *
-     * @return ExtendedPromiseInterface
+     * @return PromiseInterface
      */
-    abstract public function userEventTrigger(GuildMember $member, GuildMember $memberOld = null);
+    abstract public function userEventTrigger(GuildMember $member, GuildMember $memberOld = null): PromiseInterface;
 }

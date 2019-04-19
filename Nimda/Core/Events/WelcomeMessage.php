@@ -6,17 +6,15 @@ use CharlotteDunois\Yasmin\Interfaces\TextChannelInterface;
 use CharlotteDunois\Yasmin\Models\GuildMember;
 use CharlotteDunois\Yasmin\Models\MessageEmbed;
 use Nimda\Core\Event;
+use React\Promise\PromiseInterface;
 
 class WelcomeMessage extends Event
 {
     /**
      * @inheritDoc
      */
-    public function userEventTrigger(GuildMember $member, GuildMember $memberOld = null)
+    public function userEventTrigger(GuildMember $member, GuildMember $memberOld = null): PromiseInterface
     {
-        if ($this->config['channel'] === '') {
-            return null;
-        }
         /* @var TextChannelInterface $channel */
         $channel = $member->guild->channels->get($this->config['channel']);
 
@@ -33,7 +31,6 @@ class WelcomeMessage extends Event
             return $channel->send('', ['embed' => $embed])
                 ->otherwise(function ($error) {
                     echo $error . PHP_EOL;
-                    return false;
                 });
         }
     }

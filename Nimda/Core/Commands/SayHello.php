@@ -5,14 +5,15 @@ namespace Nimda\Core\Commands;
 use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Nimda\Core\Command;
+use React\Promise\PromiseInterface;
 
 class SayHello extends Command
 {
     /**
      * @inheritDoc
      */
-    public function trigger(Message $message, Collection $args = null)
+    public function trigger(Message $message, Collection $args = null): PromiseInterface
     {
-        $message->reply($this->config['message']);
+        return $message->reply($this->config['message']);
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php  declare(strict_types=1);
 
 namespace Nimda;
 
@@ -9,7 +9,6 @@ use Nimda\Core\Database;
 use Nimda\Core\EventContainer;
 use Nimda\Core\TimerContainer;
 use React\EventLoop\Factory;
-
 
 /**
  * Class Nimda
@@ -68,7 +67,7 @@ final class Nimda
     /**
      * Nimda run method, boots and runs the discord loop
      */
-    public function run()
+    public function run(): void
     {
         $this->client->login(Discord::$config['client_token'])->done();
         $this->loop->run();
@@ -77,7 +76,7 @@ final class Nimda
     /**
      * Runs when a connection is established
      */
-    public function onReady()
+    public function onReady(): void
     {
         printf('Logged in as %s created on %s' . PHP_EOL, $this->client->user->tag,
             $this->client->user->createdAt->format('d.m.Y H:i:s'));
@@ -86,10 +85,10 @@ final class Nimda
     /**
      * @internal Register events for Nimda to handle
      */
-    private function register()
+    private function register(): void
     {
-        $this->client->on('message', [$this->commands, 'onMessage']);
         $this->client->on('ready', [$this, 'onReady']);
+        $this->client->on('message', [$this->commands, 'onMessage']);
         $this->client->on("guildMemberAdd", [$this->events, 'guildMemberAdd']);
     }
 
@@ -98,7 +97,7 @@ final class Nimda
      * @internal Check for invalid options before booting
      *
      */
-    private function startupCheck()
+    private function startupCheck(): void
     {
         throw_if(\PHP_SAPI !== 'cli', \Exception::class, 'Nimda can only be used in the CLI SAPI. Please use PHP CLI to run Nimda.');
 

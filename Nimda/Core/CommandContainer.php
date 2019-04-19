@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Nimda\Core;
 
@@ -6,8 +6,7 @@ use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Nimda\Configuration\Discord;
-use React\Promise\ExtendedPromiseInterface;
-use React\Promise\Promise;
+use React\Promise\PromiseInterface;
 
 /**
  * Class CommandContainer
@@ -36,7 +35,7 @@ final class CommandContainer
     /**
      * Setup commands to receive events
      */
-    public function loadCommands()
+    public function loadCommands(): void
     {
         $this->loadCoreCommands(Discord::$config['commands']['core']);
         $this->loadPublicCommands(Discord::$config['commands']['public']);
@@ -49,7 +48,7 @@ final class CommandContainer
      *
      * @param array $commands
      */
-    private function loadCoreCommands(array $commands)
+    private function loadCoreCommands(array $commands): void
     {
         foreach ($commands as $command) {
             if (!$this->precheckCommand(self::CORE_COMMAND, $command)) {
@@ -79,7 +78,7 @@ final class CommandContainer
      *
      * @param array $commands
      */
-    private function loadPublicCommands(array $commands)
+    private function loadPublicCommands(array $commands): void
     {
         foreach ($commands as $command) {
             if (!$this->precheckCommand(self::PUBLIC_COMMAND, $command)) {
@@ -112,7 +111,7 @@ final class CommandContainer
      *
      * @return bool
      */
-    private function precheckCommand($namespace, $command)
+    private function precheckCommand($namespace, $command): bool
     {
         $commandClass = substr($command, strlen($namespace));
 
@@ -139,7 +138,7 @@ final class CommandContainer
      * @internal Add the a command command mapped to its corresponding command to the container
      *
      */
-    private function setTrigger(Command $commandClass, array $config)
+    private function setTrigger(Command $commandClass, array $config): void
     {
         if (array_key_exists('commands', $config['trigger'])) {
             $commands = $config['trigger']['commands'];
@@ -157,7 +156,7 @@ final class CommandContainer
      * @internal Load a commands configuration
      *
      */
-    private function loadConfig($namespace, $command)
+    private function loadConfig($namespace, $command): ?array
     {
         $command = substr($command, strlen($namespace));
         $class = ($namespace == self::CORE_COMMAND) ?
@@ -176,9 +175,9 @@ final class CommandContainer
      * Check a message for chat command
      *
      * @param Message $message
-     * @return ExtendedPromiseInterface
+     * @return PromiseInterface
      */
-    public function onMessage(Message $message)
+    public function onMessage(Message $message): ?PromiseInterface
     {
         if (!Str::startsWith($message->content, Discord::$config['prefix']) ||
             $message->author->bot ||
@@ -194,6 +193,7 @@ final class CommandContainer
         if ($command->isEmpty()) {
             return null;
         }
+
         $commandPattern = $command->keys()->first();
         $command = $command->first();
 
@@ -207,7 +207,7 @@ final class CommandContainer
      * @internal Find a command for a chat command
      *
      */
-    private function findCommand($text)
+    private function findCommand($text): Collection
     {
         return $this->commands->filter(function ($command) use ($text) {
             $key = \array_keys($command)[0];

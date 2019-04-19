@@ -7,13 +7,14 @@ use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
 use Nimda\Core\Command;
+use React\Promise\PromiseInterface;
 
 class PurgeChat extends Command
 {
     /**
      * @inheritDoc
      */
-    public function trigger(Message $message, Collection $args = null)
+    public function trigger(Message $message, Collection $args = null): PromiseInterface
     {
         if ($args->get('amount') < 3) {
             return $message->channel->send(sprintf("Invalid command parameters, usage: %s%s [amount min:3]", Discord::$config['prefix'], $this->config['trigger']['commands'][0]))

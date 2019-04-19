@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Nimda\Core;
 
@@ -33,7 +33,7 @@ final class EventContainer
     /**
      * Loading events
      */
-    public function loadEvents()
+    public function loadEvents(): void
     {
         $this->loadCoreEvents(Discord::$config['events']['core']);
         $this->loadPublicEvents(Discord::$config['events']['public']);
@@ -46,7 +46,7 @@ final class EventContainer
      * @internal Setup Core Events
      *
      */
-    private function loadCoreEvents(array $events)
+    private function loadCoreEvents(array $events): void
     {
         foreach ($events as $event) {
             if (!$this->precheckEvent(self::CORE_EVENT, $event)) {
@@ -71,7 +71,7 @@ final class EventContainer
      * @internal Setup Public Events
      *
      */
-    private function loadPublicEvents(array $events)
+    private function loadPublicEvents(array $events): void
     {
         foreach ($events as $event) {
             if (!$this->precheckEvent(self::PUBLIC_EVENT, $event)) {
@@ -99,7 +99,7 @@ final class EventContainer
      * @internal Validate a event is valid before loading it.
      *
      */
-    private function precheckEvent($namespace, $event)
+    private function precheckEvent($namespace, $event): bool
     {
         $eventName = substr($event, strlen($namespace));
 
@@ -126,7 +126,7 @@ final class EventContainer
      * @internal Set the event trigger mapped to the plugin
      *
      */
-    private function setUserTrigger(Event $event, array $config)
+    private function setUserTrigger(Event $event, array $config): void
     {
         if (array_key_exists('trigger', $config)) {
             $trigger = $config['trigger'];
@@ -142,7 +142,7 @@ final class EventContainer
      * @internal Load the event configuration
      *
      */
-    private function loadConfig($namespace, $event)
+    private function loadConfig($namespace, $event): ?array
     {
         $event = substr($event, strlen($namespace));
         $class = ($namespace == self::CORE_EVENT) ?
@@ -162,7 +162,7 @@ final class EventContainer
      *
      * @param GuildMember $member The member data which joined the guild
      */
-    public function guildMemberAdd(GuildMember $member)
+    public function guildMemberAdd(GuildMember $member): void
     {
         $events = $this->events->filter(function ($event) {
             return 'guildMemberAdd' === array_keys($event)[0];

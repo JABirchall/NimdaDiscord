@@ -8,12 +8,13 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Collection;
 use Nimda\Core\Command;
 use Nimda\DB;
+use React\Promise\PromiseInterface;
 
 class Quotes extends Command
 {
     const TABLE = 'quotes';
 
-    public function trigger(Message $message, Collection $args = null)
+    public function trigger(Message $message, Collection $args = null): PromiseInterface
     {
         switch ($args->get('action')) {
             case 'add':

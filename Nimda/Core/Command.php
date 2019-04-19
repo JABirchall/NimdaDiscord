@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Nimda\Core;
 
@@ -6,8 +6,7 @@ use CharlotteDunois\Yasmin\Models\GuildMember;
 use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
-use React\Promise\ExtendedPromiseInterface;
-use React\Promise\Promise;
+use React\Promise\PromiseInterface;
 
 /**
  * Class Command
@@ -39,9 +38,9 @@ abstract class Command
      * @param $plainText
      * @param $commandPattern
      *
-     * @return ExtendedPromiseInterface
+     * @return PromiseInterface
      */
-    public function execute(Message $message, $plainText, $commandPattern)
+    public function execute(Message $message, $plainText, $commandPattern): PromiseInterface
     {
         if ($this->middleware($message->member) === false) {
             return null;
@@ -65,9 +64,9 @@ abstract class Command
      * @param Message $message
      * @param Collection $args
      *
-     * @return ExtendedPromiseInterface
+     * @return PromiseInterface
      */
-    abstract public function trigger(Message $message, Collection $args = null);
+    abstract public function trigger(Message $message, Collection $args = null): PromiseInterface;
 
     /**
      * Middleware is triggered before the command is ran to check authorization.
@@ -91,7 +90,7 @@ abstract class Command
      * @internal Checks and parses a chat command arguments
      *
      */
-    private function parseArguments($message, $pattern)
+    private function parseArguments($message, $pattern): Collection
     {
         $names = [];
         $onMatch = function ($matches) use (&$names) {
@@ -111,7 +110,7 @@ abstract class Command
         return false;
     }
 
-    public function match($message, $pattern)
+    public function match($message, $pattern): bool
     {
         $onMatch = function ($matches) {
             $pattern = $matches[2] ?? ".*";
