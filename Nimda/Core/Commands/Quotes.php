@@ -26,10 +26,12 @@ class Quotes extends Command
                 break;
 
             case 'search':
+            case 'find':
                 return $this->searchQuotes($message, $args->get('text'));
                 break;
 
             case 'remove':
+            case 'delete':
                 return $this->removeQuote($message, $args->get('id'));
                 break;
 

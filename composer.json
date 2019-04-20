@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "charlottedunois/yasmin": "~v0.5.1",
+    "charlottedunois/yasmin": "~v0.5",
     "illuminate/database": "~5.7.0"
   },
   "config": {
