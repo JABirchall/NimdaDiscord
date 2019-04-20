@@ -9,7 +9,7 @@ Nimda ❤ [Yasmin](https://github.com/CharlotteDunois/Yasmin)
 
 To install this bot download or clone the repository to your server.
 
-run `./composer create-project JABirchall/NimdaDiscord NimdaDiscord` then `./composer dump-autoload -o`
+run `./composer create-project JABirchall/NimdaDiscord NimdaDiscord`
 
 Edit the configuration files in `/Nimda/Configuration` to get a discord API token go here: https://discordapp.com/developers/applications/
 
