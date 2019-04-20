@@ -3,7 +3,7 @@
   "description": "An Advanced Discord Bot with a nice plugin autoloading. ",
   "minimum-stability": "stable",
   "type": "project",
-  "license": "GNU LGPL",
+  "license": "LGPL-3.0-only",
   "authors": [
     {
       "name": "Jake Birchall",
