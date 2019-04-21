@@ -11,6 +11,9 @@
     }
   ],
   "require": {
+    "php": ">=7.1",
+    "ext-mbstring": "~7.1",
+    "ext-pdo": "~7.1",
     "charlottedunois/yasmin": "~v0.5",
     "illuminate/database": "~5.7.0"
   },
