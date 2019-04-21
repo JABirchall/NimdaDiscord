@@ -61,7 +61,13 @@ final class CommandContainer
                 continue;
             }
 
+            /** @var Command $loadedCommand */
             $loadedCommand = new $command($config);
+
+            if(!$loadedCommand->isConfigured()) {
+                printf("Loading failed because class %s is not configured correctly\n", $command);
+                continue;
+            }
 
             if (method_exists($loadedCommand, 'install')) {
                 $loadedCommand->install();
@@ -91,7 +97,13 @@ final class CommandContainer
                 continue;
             }
 
+            /** @var Command $loadedCommand */
             $loadedCommand = new $command($config);
+
+            if(!$loadedCommand->isConfigured()) {
+                printf("Loading failed because class %s doesn't exist.\n", $command);
+                continue;
+            }
 
             if (method_exists($loadedCommand, 'install')) {
                 $loadedCommand->install();

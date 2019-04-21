@@ -83,6 +83,19 @@ abstract class Command
     }
 
     /**
+     * Check if the command is configured to be loaded.
+     * Default check is for if a command is set. But should be overriden
+     * with a commands specific requirements.
+     *
+     * @override
+     * @return bool
+     */
+    public function isConfigured(): bool
+    {
+        return !empty($this->config['trigger']['commands'][0]);
+    }
+
+    /**
      * @param string $message
      * @param string $pattern
      *

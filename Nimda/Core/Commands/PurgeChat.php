@@ -44,4 +44,9 @@ class PurgeChat extends Command
             ->intersect($author->roles->keys()->all())
             ->isNotEmpty();
     }
+
+    public function isConfigured(): bool
+    {
+        return !empty($this->config['roles'][0]);
+    }
 }

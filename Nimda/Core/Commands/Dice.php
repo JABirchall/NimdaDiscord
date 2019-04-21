@@ -38,4 +38,12 @@ class Dice extends Command
             });
         });
     }
+
+    public function isConfigured(): bool
+    {
+        return !(empty($this->config['default']['dice']) ||
+            empty($this->config['default']['sides']) ||
+            $this->config['default']['dice'] < 1 ||
+            $this->config['default']['sides'] < 2);
+    }
 }
