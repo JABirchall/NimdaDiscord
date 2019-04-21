@@ -53,15 +53,14 @@ final class Nimda
         Database::boot();
 
         $this->commands = new CommandContainer();
-        $this->commands->loadCommands();
-
-        $this->timers = new TimerContainer($this->client);
-        $this->timers->loadTimers();
-
         $this->events = new EventContainer();
-        $this->events->loadEvents();
+        $this->timers = new TimerContainer($this->client);
 
         $this->register();
+
+        $this->commands->loadCommands();
+        $this->events->loadEvents();
+        $this->timers->loadTimers();
     }
 
     /**
