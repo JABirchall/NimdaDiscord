@@ -3,6 +3,7 @@
 namespace Nimda\Core;
 
 use CharlotteDunois\Collect\Collection;
+use CharlotteDunois\Yasmin\ClientEvents;
 use CharlotteDunois\Yasmin\Interfaces\ChannelInterface;
 use CharlotteDunois\Yasmin\Interfaces\TextChannelInterface;
 use CharlotteDunois\Yasmin\Models\Guild;
@@ -20,7 +21,7 @@ use Throwable;
  * Class Event
  * @package Nimda\Core
  */
-abstract class Event
+abstract class Event implements ClientEvents
 {
     /**
      * @var array $config Configuration for the event object
@@ -35,6 +36,20 @@ abstract class Event
     public function __construct(array $config)
     {
         $this->config = $config;
+    }
+
+    /**
+     * Check if the event is configured to be loaded.
+     * Default check is if a command is set. But should be overriden
+     * with a event specific requirements.
+     *
+     * @override
+     * @return bool
+     */
+
+    public function isConfigured(): bool
+    {
+        return !empty($this->config['trigger']['events'][0]);
     }
 
     /**

@@ -65,8 +65,19 @@ final class EventContainer
             if ($config === null) {
                 continue;
             }
-
+            
+            /** @var Event $loadedEvent */
             $loadedEvent = new $event($config);
+
+            if(!$loadedEvent->isConfigured()) {
+                printf("Loading failed because class %s is not configured correctly\n", $command);
+                continue;
+            }
+
+            if (method_exists($loadedEvent, 'install')) {
+                $loadedEvent->install();
+            }
+
             $this->setTrigger($loadedEvent, $config);
 
             printf("Completed\n");
@@ -91,7 +102,18 @@ final class EventContainer
                 continue;
             }
 
+            /** @var Event $loadedEvent */
             $loadedEvent = new $event($config);
+
+            if(!$loadedEvent->isConfigured()) {
+                printf("Loading failed because class %s is not configured correctly\n", $command);
+                continue;
+            }
+
+            if (method_exists($loadedEvent, 'install')) {
+                $loadedEvent->install();
+            }
+
             $this->setTrigger($loadedEvent, $config);
 
             printf("Completed\n");
