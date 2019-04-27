@@ -65,7 +65,7 @@ final class EventContainer
             if ($config === null) {
                 continue;
             }
-            
+
             /** @var Event $loadedEvent */
             $loadedEvent = new $event($config);
 
