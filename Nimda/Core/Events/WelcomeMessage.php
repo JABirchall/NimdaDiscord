@@ -32,4 +32,9 @@ class WelcomeMessage extends Event
 
         return $channel->send("Welcome to {$member->guild->name}, {$member}");
     }
+    
+    public function isConfigured(): bool
+    {
+        return isset($this->config['channel']);
+    }
 }
