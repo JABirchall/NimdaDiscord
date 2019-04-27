@@ -6,14 +6,13 @@ use CharlotteDunois\Yasmin\Interfaces\TextChannelInterface;
 use CharlotteDunois\Yasmin\Models\GuildMember;
 use CharlotteDunois\Yasmin\Models\MessageEmbed;
 use Nimda\Core\Event;
-use React\Promise\PromiseInterface;
 
 class WelcomeMessage extends Event
 {
     /**
      * @inheritDoc
      */
-    public function guildMemberAdd(GuildMember $member, GuildMember $memberOld = null): PromiseInterface
+    public function guildMemberAdd(GuildMember $member)
     {
         /* @var TextChannelInterface $channel */
         $channel = $member->guild->channels->get($this->config['channel']);
