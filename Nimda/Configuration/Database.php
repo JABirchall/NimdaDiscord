@@ -43,6 +43,10 @@ class Database
                 'charset' => 'utf-8',
                 'collation' => 'utf8_unicode_ci',
                 'sticky'    => true,
+                'options'   => [
+                    \PDO::ATTR_STRINGIFY_FETCHES => false,
+                    \PDO::ATTR_TIMEOUT => 5,
+                ],
             ],
             'mysql' => [
                 'driver'    => 'mysql',
@@ -55,6 +59,10 @@ class Database
                 'prefix'    => 'nimda_',
                 'strict'    => false,
                 'sticky'    => true,
+                'options'   => [
+                    \PDO::ATTR_STRINGIFY_FETCHES => false,
+                    \PDO::ATTR_TIMEOUT => 5,
+                ],
             ],
             'pgsql' => [
                 'driver'   => 'pgsql',
@@ -65,6 +73,10 @@ class Database
                 'charset'  => 'utf8',
                 'prefix'   => 'nimda_',
                 'schema'   => 'public',
+                'options'   => [
+                    \PDO::ATTR_STRINGIFY_FETCHES => false,
+                    \PDO::ATTR_TIMEOUT => 5,
+                ],
             ],
             'sqlsrv' => [
                 'driver'   => 'sqlsrv',
@@ -74,6 +86,10 @@ class Database
                 'password' => '',
                 'charset'  => 'utf8',
                 'prefix'   => 'nimda_',
+                'options'   => [
+                    \PDO::ATTR_STRINGIFY_FETCHES => false,
+                    \PDO::ATTR_TIMEOUT => 5,
+                ],
             ],
         ],
     ];
