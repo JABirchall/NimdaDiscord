@@ -84,8 +84,8 @@ abstract class Command
 
     /**
      * Check if the command is configured to be loaded.
-     * Default check is for if a command is set. But should be overriden
-     * with a commands specific requirements.
+     * Default check is if a command is set. But should be overriden
+     * with a command specific requirements.
      *
      * @override
      * @return bool
@@ -120,9 +120,17 @@ abstract class Command
             return Collection::make($matches)->intersectByKeys($names);
         }
 
-        return false;
+        return $regexMatched;
     }
 
+    /**
+     * @param string $message
+     * @param string $pattern
+     *
+     * @return bool
+     * @internal Checks a command matches
+     *
+     */
     public function match($message, $pattern): bool
     {
         $onMatch = function ($matches) {
