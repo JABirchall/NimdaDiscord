@@ -2,6 +2,7 @@
 
 namespace Nimda\Core;
 
+use CharlotteDunois\Yasmin\Client;
 use CharlotteDunois\Yasmin\Models\GuildMember;
 use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
@@ -21,13 +22,19 @@ final class EventContainer
      * @var \Illuminate\Support\Collection $events
      */
     protected $events;
+    /**
+     * @var Client
+     */
+    private $client;
 
     /**
      * EventContainer constructor.
+     * @param Client $client
      */
-    public function __construct()
+    public function __construct(Client $client)
     {
         $this->events = new Collection();
+        $this->client = $client;
     }
 
     /**
@@ -60,7 +67,7 @@ final class EventContainer
             }
 
             $loadedEvent = new $event($config);
-            $this->setUserTrigger($loadedEvent, $config);
+            $this->setTrigger($loadedEvent, $config);
 
             printf("Completed\n");
         }
@@ -85,7 +92,7 @@ final class EventContainer
             }
 
             $loadedEvent = new $event($config);
-            $this->setUserTrigger($loadedEvent, $config);
+            $this->setTrigger($loadedEvent, $config);
 
             printf("Completed\n");
         }
@@ -126,11 +133,10 @@ final class EventContainer
      * @internal Set the event trigger mapped to the plugin
      *
      */
-    private function setUserTrigger(Event $event, array $config): void
+    private function setTrigger(Event $event, array $config): void
     {
-        if (array_key_exists('trigger', $config)) {
-            $trigger = $config['trigger'];
-            $this->events->push([$trigger => $event]);
+        foreach ($config['trigger']['events'] as $triggerEvent) {
+            $this->client->on($triggerEvent, [$event, $triggerEvent]);
         }
     }
 
@@ -157,23 +163,4 @@ final class EventContainer
         return $class::$config;
     }
 
-    /**
-     * Waiting for clients to join the server
-     *
-     * @param GuildMember $member The member data which joined the guild
-     */
-    public function guildMemberAdd(GuildMember $member): void
-    {
-        $events = $this->events->filter(function ($event) {
-            return 'guildMemberAdd' === array_keys($event)[0];
-        })->collapse();
-
-        if ($events->isEmpty()) {
-            return;
-        }
-
-        $events->each(function (Event $event) use ($member) {
-            return $event->userEventTrigger($member);
-        });
-    }
 }

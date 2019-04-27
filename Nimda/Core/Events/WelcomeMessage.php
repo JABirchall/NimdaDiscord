@@ -13,7 +13,7 @@ class WelcomeMessage extends Event
     /**
      * @inheritDoc
      */
-    public function userEventTrigger(GuildMember $member, GuildMember $memberOld = null): PromiseInterface
+    public function guildMemberAdd(GuildMember $member, GuildMember $memberOld = null): PromiseInterface
     {
         /* @var TextChannelInterface $channel */
         $channel = $member->guild->channels->get($this->config['channel']);

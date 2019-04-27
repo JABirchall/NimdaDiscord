@@ -53,7 +53,7 @@ final class Nimda
         Database::boot();
 
         $this->commands = new CommandContainer();
-        $this->events = new EventContainer();
+        $this->events = new EventContainer($this->client);
         $this->timers = new TimerContainer($this->client);
 
         $this->register();
@@ -88,7 +88,6 @@ final class Nimda
     {
         $this->client->on('ready', [$this, 'onReady']);
         $this->client->on('message', [$this->commands, 'onMessage']);
-        $this->client->on("guildMemberAdd", [$this->events, 'guildMemberAdd']);
     }
 
     /**

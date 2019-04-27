@@ -8,6 +8,10 @@ class WelcomeMessage
         'channel' => '',
         'embed' => true,
         'mention' => false,
-        'trigger' => 'guildMemberAdd',
+        'trigger' => [
+            'events' => [
+                'guildMemberAdd',
+            ],
+        ],
     ];
 }

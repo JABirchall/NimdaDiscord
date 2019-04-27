@@ -26,13 +26,4 @@ abstract class Event
         $this->config = $config;
     }
 
-    /**
-     * Method for handling guildMember(Join|Leave|Updated)
-     *
-     * @param GuildMember $member
-     * @param GuildMember|null $memberOld
-     *
-     * @return PromiseInterface
-     */
-    abstract public function userEventTrigger(GuildMember $member, GuildMember $memberOld = null): PromiseInterface;
 }
