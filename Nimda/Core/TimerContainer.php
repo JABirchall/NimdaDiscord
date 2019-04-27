@@ -3,7 +3,6 @@
 namespace Nimda\Core;
 
 use CharlotteDunois\Yasmin\Client;
-use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
 
 final class TimerContainer
@@ -13,10 +12,6 @@ final class TimerContainer
     const CORE_TIMER_CONFIG = 'Nimda\\Configuration\\Core\\';
     const PUBLIC_TIMER = 'Nimda\\Timers\\';
     const PUBLIC_TIMER_CONFIG = 'Nimda\\Timers\\Configuration\\';
-    /**
-     * @var \Illuminate\Support\Collection $timers
-     */
-    protected $timers;
 
     /**
      * @var \CharlotteDunois\Yasmin\Client $client Yasmin Client instance
@@ -29,7 +24,6 @@ final class TimerContainer
      */
     public function __construct(Client $client)
     {
-        $this->timers = new Collection();
         $this->client = $client;
     }
 
@@ -61,9 +55,16 @@ final class TimerContainer
             if ($config === null) {
                 continue;
             }
-
+            /** @var Timer $loadedTimer */
             $loadedTimer = new $timer($config);
-            $this->timers->push($loadedTimer);
+            if(!$loadedTimer->isConfigured()) {
+                printf("Loading failed because class %s is not configured correctly\n", $timer);
+                continue;
+            }
+
+            if (method_exists($loadedTimer, 'install')) {
+                $loadedTimer->install();
+            }
 
             $this->setTimer($loadedTimer, $config);
             printf("Completed\n");
@@ -89,7 +90,6 @@ final class TimerContainer
             }
 
             $loadedTimer = new $timer($config);
-            $this->timers->push($loadedTimer);
 
             $this->setTimer($loadedTimer, $config);
             printf("Completed\n");

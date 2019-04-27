@@ -28,6 +28,20 @@ abstract class Timer
     }
 
     /**
+     * Check if the timer is configured to be loaded.
+     * Default check is if a timer is set. But should be overriden
+     * with a timer specific requirements.
+     *
+     * @override
+     * @return bool
+     */
+
+    public function isConfigured(): bool
+    {
+        return !empty($this->config['interval']);
+    }
+
+    /**
      * Timer trigger method
      *
      * @param Client $client

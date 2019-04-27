@@ -63,7 +63,6 @@ final class CommandContainer
 
             /** @var Command $loadedCommand */
             $loadedCommand = new $command($config);
-
             if(!$loadedCommand->isConfigured()) {
                 printf("Loading failed because class %s is not configured correctly\n", $command);
                 continue;

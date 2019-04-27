@@ -40,7 +40,7 @@ abstract class Event implements ClientEvents
 
     /**
      * Check if the event is configured to be loaded.
-     * Default check is if a command is set. But should be overriden
+     * Default check is if a event is set. But should be overriden
      * with a event specific requirements.
      *
      * @override

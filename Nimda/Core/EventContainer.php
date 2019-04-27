@@ -68,9 +68,8 @@ final class EventContainer
 
             /** @var Event $loadedEvent */
             $loadedEvent = new $event($config);
-
             if(!$loadedEvent->isConfigured()) {
-                printf("Loading failed because class %s is not configured correctly\n", $command);
+                printf("Loading failed because class %s is not configured correctly\n", $event);
                 continue;
             }
 
