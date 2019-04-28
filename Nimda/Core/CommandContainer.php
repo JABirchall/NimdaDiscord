@@ -30,6 +30,7 @@ final class CommandContainer
     public function __construct()
     {
         $this->commands = new Collection();
+        Conversation::init();
     }
 
     /**
@@ -190,10 +191,20 @@ final class CommandContainer
      */
     public function onMessage(Message $message): ?PromiseInterface
     {
-        if (!Str::startsWith($message->content, Discord::$config['prefix']) ||
-            $message->author->bot ||
+        if ($message->author->bot ||
             $message->author->id === $message->client->user->id ||
             $message->guild === null) {
+            return null;
+        }
+
+        if (Conversation::hasConversation($message->author)) {
+            $callable = Conversation::getConversation($message->author);
+            Conversation::removeConversation($message->author);
+            /** @var PromiseInterface $promise */
+            return call_user_func($callable, $message);
+        }
+
+        if(!Str::startsWith($message->content, Discord::$config['prefix'])) {
             return null;
         }
 
