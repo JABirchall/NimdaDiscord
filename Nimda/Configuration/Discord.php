@@ -33,7 +33,12 @@ class Discord
          * Command prefix, change this to what ever you wish (Note: / @ is reserved and interpreted by Discord)
          */
         'prefix' => '!',
-        'deleteCommands' => true,
+        'deleteCommands' => false,
+
+        'conversation' => [
+            'timeout' => 10, //Timeout in minutes, after this time stale conversations will be removed.
+        ],
+
         'commands' => [
             /**
              * Core commands provided with Nimda with basic fundamental features

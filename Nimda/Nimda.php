@@ -5,6 +5,7 @@ namespace Nimda;
 use CharlotteDunois\Yasmin\Client;
 use Nimda\Configuration\Discord;
 use Nimda\Core\CommandContainer;
+use Nimda\Core\Conversation;
 use Nimda\Core\Database;
 use Nimda\Core\EventContainer;
 use Nimda\Core\TimerContainer;
@@ -68,6 +69,7 @@ final class Nimda
      */
     public function run(): void
     {
+        Conversation::init();
         $this->client->login(Discord::$config['client_token'])->done();
         $this->loop->run();
     }
@@ -78,7 +80,12 @@ final class Nimda
     public function onReady(): void
     {
         printf('Logged in as %s created on %s' . PHP_EOL, $this->client->user->tag,
-            $this->client->user->createdAt->format('d.m.Y H:i:s'));
+            $this->client->user->createdAt->format('d.m.Y H:i:s')
+        );
+
+        $this->client->addPeriodicTimer(Discord::$config['conversation']['timeout'],
+            [Conversation::class, 'refreshConversations']
+        );
     }
 
     /**

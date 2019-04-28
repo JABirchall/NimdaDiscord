@@ -30,7 +30,6 @@ final class CommandContainer
     public function __construct()
     {
         $this->commands = new Collection();
-        Conversation::init();
     }
 
     /**
@@ -198,6 +197,10 @@ final class CommandContainer
         }
 
         if (Conversation::hasConversation($message->author)) {
+            if(Str::lower($message->content) == "cancel") {
+                Conversation::removeConversation($message->author);
+                return null;
+            }
             $callable = Conversation::getConversation($message->author);
             Conversation::removeConversation($message->author);
             return call_user_func($callable, $message);
@@ -208,7 +211,6 @@ final class CommandContainer
         }
 
         $plainText = Str::lower(Str::after($message->content, Discord::$config['prefix']));
-
         $command = $this->findCommand($plainText);
 
         if ($command->isEmpty()) {

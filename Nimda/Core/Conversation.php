@@ -2,9 +2,11 @@
 
 namespace Nimda\Core;
 
+use Carbon\Carbon;
 use CharlotteDunois\Yasmin\Models\Message;
 use CharlotteDunois\Yasmin\Models\User;
 use Illuminate\Support\Collection;
+use Nimda\Configuration\Discord;
 
 class Conversation
 {
@@ -27,7 +29,8 @@ class Conversation
 
         self::$conversations->push([
             'user' => $user->id,
-            'callable' => $next
+            'callable' => $next,
+            'timeout' => Carbon::now()->addMinutes(Discord::$config['conversation']['timeout'])->timestamp,
         ]);
     }
 
@@ -51,5 +54,12 @@ class Conversation
     public static function getConversations(): Collection
     {
         return self::$conversations;
+    }
+
+    public static function refreshConversations()
+    {
+        self::$conversations = self::$conversations->reject(function ($value) {
+            return $value['timeout'] <= Carbon::now()->timestamp;
+        });
     }
 }
