@@ -200,7 +200,6 @@ final class CommandContainer
         if (Conversation::hasConversation($message->author)) {
             $callable = Conversation::getConversation($message->author);
             Conversation::removeConversation($message->author);
-            /** @var PromiseInterface $promise */
             return call_user_func($callable, $message);
         }
 

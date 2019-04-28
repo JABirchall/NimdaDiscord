@@ -26,8 +26,8 @@ class Conversation
         }
 
         self::$conversations->push([
-            "user" => $user->id,
-            "callable" => $next
+            'user' => $user->id,
+            'callable' => $next
         ]);
     }
 
@@ -38,14 +38,13 @@ class Conversation
 
     public static function getConversation(User $user): callable
     {
-        return self::$conversations->where('user', $user->id)->toArray()[0]['callable'];
+        return self::$conversations->where('user', $user->id)->collapse()->get('callable');
     }
 
     public static function removeConversation(User $user)
     {
-        self::$conversations = self::$conversations->reject(function ($value, $key) use ($user) {
-            $reject = $value['user'] == $user->id;
-            return $reject;
+        self::$conversations = self::$conversations->reject(function ($value) use ($user) {
+            return $value['user'] == $user->id;
         });
     }
 
@@ -53,6 +52,4 @@ class Conversation
     {
         return self::$conversations;
     }
-
-
 }
