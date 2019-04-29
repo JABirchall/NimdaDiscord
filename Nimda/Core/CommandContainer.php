@@ -197,7 +197,7 @@ final class CommandContainer
         }
 
         if (Conversation::hasConversation($message->author)) {
-            if(Str::lower($message->content) === "cancel") {
+            if(Str::lower($message->content) === Discord::$config['conversation']['safeword']) {
                 Conversation::removeConversation($message->author);
                 return null;
             }

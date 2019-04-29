@@ -36,6 +36,7 @@ class Discord
         'deleteCommands' => false,
 
         'conversation' => [
+            'safeword' => '!cancel',
             'timeout' => 10, //Timeout in minutes, after this time stale conversations will be removed.
         ],
 
