@@ -7,6 +7,8 @@ use CharlotteDunois\Yasmin\Models\Message;
 use CharlotteDunois\Yasmin\Models\User;
 use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
+use React\Promise\ExtendedPromiseInterface;
+use function React\Promise\reject;
 
 class Conversation
 {
@@ -32,6 +34,11 @@ class Conversation
             'callable' => $next,
             'timeout' => Carbon::now()->addMinutes(Discord::$config['conversation']['timeout'])->timestamp,
         ]);
+    }
+
+    public static function repeat(string $reason): ExtendedPromiseInterface
+    {
+        return reject($reason);
     }
 
     public static function hasConversation(User $user): bool

@@ -197,13 +197,16 @@ final class CommandContainer
         }
 
         if (Conversation::hasConversation($message->author)) {
-            if(Str::lower($message->content) == "cancel") {
+            if(Str::lower($message->content) === "cancel") {
                 Conversation::removeConversation($message->author);
                 return null;
             }
-            $callable = Conversation::getConversation($message->author);
-            Conversation::removeConversation($message->author);
-            return call_user_func($callable, $message);
+
+            return call_user_func(Conversation::getConversation($message->author), $message)->then(function () use ($message){
+                Conversation::removeConversation($message->author);
+            })->otherwise(function ($reason) use ($message) {
+               return $message->channel->send($reason);
+            });
         }
 
         if(!Str::startsWith($message->content, Discord::$config['prefix'])) {
