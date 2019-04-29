@@ -22,6 +22,12 @@ class Conversation
         self::$conversations = new Collection;
     }
 
+    /**
+     * Starts a conversation with the user.
+     *
+     * @param Message $message
+     * @param callable $next
+     */
     public static function make(Message $message, callable $next)
     {
         $user = $message->author;
@@ -36,21 +42,44 @@ class Conversation
         ]);
     }
 
+    /**
+     * Reject the response from the user and repeat the conversation loop.
+     *
+     * @param string $reason
+     * @return ExtendedPromiseInterface
+     */
     public static function repeat(string $reason): ExtendedPromiseInterface
     {
         return reject($reason);
     }
 
+    /**
+     * Check if the current user already has an open conversation
+     *
+     * @param User $user
+     * @return bool
+     */
     public static function hasConversation(User $user): bool
     {
         return self::$conversations->where('user', $user->id)->isNotEmpty();
     }
 
+    /**
+     * Return the conversation callback for the current user.
+     *
+     * @param User $user
+     * @return callable
+     */
     public static function getConversation(User $user): callable
     {
         return self::$conversations->where('user', $user->id)->collapse()->get('callable');
     }
 
+    /**
+     * Delete the conversation of the current user effectively ending the conversation.
+     *
+     * @param User $user
+     */
     public static function removeConversation(User $user)
     {
         self::$conversations = self::$conversations->reject(function ($value) use ($user) {
@@ -58,11 +87,19 @@ class Conversation
         });
     }
 
+    /**
+     * Get all conversations
+     *
+     * @return Collection
+     */
     public static function getConversations(): Collection
     {
         return self::$conversations;
     }
 
+    /**
+     * Refresh or rehash the conversations to remove stale conversations.
+     */
     public static function refreshConversations()
     {
         self::$conversations = self::$conversations->reject(function ($value) {
