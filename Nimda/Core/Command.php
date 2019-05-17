@@ -7,6 +7,7 @@ use CharlotteDunois\Yasmin\Models\Message;
 use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
 use React\Promise\PromiseInterface;
+use function React\Promise\reject;
 
 /**
  * Class Command
@@ -43,12 +44,12 @@ abstract class Command
     public function execute(Message $message, $plainText, $commandPattern): PromiseInterface
     {
         if ($this->middleware($message->member) === false) {
-            return null;
+            return reject(new \LogicException("Middleware check failed."));
         }
 
         $arguments = $this->parseArguments($plainText, $commandPattern);
         if ($arguments === false) {
-            return null;
+            return reject(new \LogicException("Command pattern match failed."));
         }
 
         if (Discord::$config['deleteCommands'] === true) {

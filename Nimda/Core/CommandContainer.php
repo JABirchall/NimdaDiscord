@@ -237,11 +237,7 @@ final class CommandContainer
     {
         return $this->commands->filter(function ($command) use ($text) {
             $key = \array_keys($command)[0];
-            /** @var Command $command */
-            $command = $command[$key];
-            return $command->match($text, $key);
-            //$commandShard = \explode(' ', \array_keys($command)[0])[0];
-            //return Str::startsWith($text, $commandShard);
+            return $command[$key]->match($text, $key);
         })->collapse();
     }
 }

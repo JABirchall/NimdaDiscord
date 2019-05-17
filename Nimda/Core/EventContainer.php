@@ -3,8 +3,6 @@
 namespace Nimda\Core;
 
 use CharlotteDunois\Yasmin\Client;
-use CharlotteDunois\Yasmin\Models\GuildMember;
-use Illuminate\Support\Collection;
 use Nimda\Configuration\Discord;
 
 /**
@@ -19,10 +17,6 @@ final class EventContainer
     const PUBLIC_EVENT_CONFIG = 'Nimda\\Events\\Configuration\\';
 
     /**
-     * @var \Illuminate\Support\Collection $events
-     */
-    protected $events;
-    /**
      * @var Client
      */
     private $client;
@@ -33,7 +27,6 @@ final class EventContainer
      */
     public function __construct(Client $client)
     {
-        $this->events = new Collection();
         $this->client = $client;
     }
 
@@ -105,7 +98,7 @@ final class EventContainer
             $loadedEvent = new $event($config);
 
             if(!$loadedEvent->isConfigured()) {
-                printf("Loading failed because class %s is not configured correctly\n", $command);
+                printf("Loading failed because class %s is not configured correctly\n", $event);
                 continue;
             }
 
@@ -183,5 +176,4 @@ final class EventContainer
 
         return $class::$config;
     }
-
 }
